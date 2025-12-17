@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANANT AGRAWAL ARCHITECTS</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="loader fixed top-0 left-0 w-full h-screen bg-[#F0EBE0] z-[9999] flex justify-center items-center">
+    
+    <svg viewBox="0 0 100 50" class="w-[30vw] md:w-[15vw] overflow-visible">
+        <path class="loader-infinity"
+              d="M25,25 C10,25 10,0 25,0 C40,0 45,15 50,25 C55,35 60,50 75,50 C90,50 90,25 75,25 C60,25 55,40 50,30 C45,20 40,5 25,5 C10,5 10,30 25,30 Z" 
+              fill="none" 
+              stroke="#1a1a1a" 
+              stroke-width="1.5"
+              stroke-linecap="round"
+        />
+    </svg>
+
+    </div>
+
+     <div id="fs-menu" class="glass-menu text-[#F0EBE0] border-l border-white/10">
+    
+    <div class="absolute bottom-10 left-10 text-[100px] opacity-5 font-serif pointer-events-none select-none leading-none">
+        ∞
+    </div>
+
+    <div class="menu-links-container text-left w-full pl-20 flex flex-col gap-8 relative z-10">
+        <div><a href="index.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Home</a></div>
+        <div><a href="about.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">About</a></div>
+        <div><a href="projects.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Projects</a></div>
+        <div><a href="services.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Services</a></div>
+        <div><a href="contact.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Contact</a></div>
+    </div>
+
+    <div id="menu-close" class="absolute top-10 right-10 cursor-pointer text-xs uppercase tracking-widest hover:opacity-70 z-50 flex items-center gap-2">
+        <span>Close</span> <div class="w-4 h-[1px] bg-white"></div>
+    </div>
+</div>
+
+<nav class="fixed top-0 left-0 w-full px-5 md:px-10 py-6 flex justify-between items-center z-50 mix-blend-difference text-[#F0EBE0]">
+    <div class="text-xl font-bold tracking-widest uppercase cursor-pointer">
+        ANANT AGRAWAL ARCHITECTS
+    </div>
+    
+    <div id="menu-trigger" class="cursor-pointer group p-2">
+        <div class="hamburger-box">
+            <div class="h-line group-hover:bg-gray-400"></div>
+            <div class="h-line group-hover:bg-gray-400"></div>
+        </div>
+    </div>
+</nav>
+
+    <section class="relative h-screen flex flex-col justify-center items-center overflow-hidden">
+    
+    <img src="website-20251202T201341Z-1-001/website/generated-image (27).png" 
+         class="absolute top-0 left-0 w-full h-full object-cover z-0" 
+         alt="Background Architects">
+    
+    <div class="absolute inset-0 bg-gradient-to-b from-black/90 to-transparent z-0"></div>
+
+    <div class="absolute top-1/3 right-[-1%] transform -translate-y-1/2 text-[40vw] opacity-10 serif text-white pointer-events-none select-none z-0">
+    ∞
+    </div>
+
+    <div class="hero-logo-container absolute bottom-10 left-5 md:left-10 z-10 flex items-center select-none opacity-0 translate-y-10">
+    
+    <div class="text-[40vw] md:text-[18vw] leading-none text-[#F0EBE0] opacity-10 font-bold -ml-[6vw] md:-ml-[3vw] pointer-events-none">
+        A
+    </div>
+
+    <div class="flex flex-col justify-center -ml-[15vw] md:-ml-[8vw] z-10">
+        
+        <h1 class="text-[10vw] md:text-[5vw] leading-none text-[#F0EBE0] font-normal whitespace-nowrap">
+            ANANT AGRAWAL
+        </h1>
+        
+        <h2 class="text-[3vw] md:text-[1.2vw] leading-none text-[#F0EBE0] tracking-[0.35em] mt-1 opacity-70 pl-1 font-light">
+            ARCHITECTS
+        </h2>
+        
+    </div>
+</div>
+    
+    <div class="hero-sub absolute bottom-5 right-5 md:bottom-5 md:right-5 max-w-[50%] md:max-w-sm text-right opacity-0 z-10 text-[#F0EBE0]">
+    
+    <p class="text-xs md:text-sm leading-relaxed opacity-90">
+        Means 'endless' or 'infinite', often used to describe the eternal nature of the universe.
+    </p>
+    
+    <div class="mt-4 md:mt-8 uppercase text-[10px] md:text-xs tracking-widest border-b border-[#F0EBE0] inline-block pb-1 cursor-pointer">
+        Scroll
+    </div>
+
+</div>
+<div class="side-btn-container">
+    <a href="site-visits.html" class="side-btn">
+        <span class="side-text">Site Visits</span>
+    </a>
+</div>
+</section>
+
+    <style>
+
+        /* --- VERTICAL SIDE BUTTON --- */
+.side-btn-container {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+}
+
+.side-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a1a1a; /* Black background */
+    color: #ffffff;
+    padding: 1.5rem 0.6rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    text-decoration: none;
+    box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+}
+
+.side-btn:hover {
+    background: #c9b29a; /* Accent Color on Hover */
+    padding-right: 1rem; /* Slide out effect */
+}
+
+/* Vertical Text */
+.side-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg); /* Rotates text to read bottom-up */
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+        /* --- HAMBURGER ICON --- */
+.hamburger-box {
+    width: 30px; height: 12px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    cursor: pointer; transition: opacity 0.3s;
+}
+.hamburger-box:hover { opacity: 0.7; }
+.h-line { width: 100%; height: 1px; background-color: #F0EBE0; transition: all 0.3s ease; }
+
+/* --- SIDE STRIP MENU --- */
+.glass-menu {
+    position: fixed;
+    top: 0;
+    right: 0; /* Anchor to right */
+    height: 100vh;
+    
+    /* WIDTH CONTROL */
+    width: 100%; /* Full width on mobile */
+    max-width: 450px; /* Fixed strip width on desktop */
+    
+    /* GLASS EFFECT */
+    background: rgba(10, 10, 10, 0.3); /* Darker for legibility */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    
+    /* ANIMATION: Start off-screen to the right */
+    transform: translateX(100%);
+    transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1); /* Luxury "Expo" ease */
+    z-index: 150;
+    
+    /* Flex layout for content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* STATE: OPEN (Slide in) */
+.menu-open {
+    transform: translateX(0);
+}
+
+/* LINK ANIMATIONS */
+.menu-link {
+    display: block;
+    transform: translateX(50px); /* Start slightly to the right */
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+.menu-link.slide-in {
+    transform: translateX(0);
+    opacity: 1;
+}
+    /* --- 1. THE IMAGE SHUTTER EFFECT --- */
+    .shutter-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* CHANGED: Background color is now WHITE (#ffffff) to match the section */
+    .shutter-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff; /* <--- White Curtain */
+        z-index: 20;
+        transform-origin: right;
+        animation: shutterOpen 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        animation-delay: 0.2s;
+    }
+
+    .shutter-image {
+        opacity: 0;
+        transform: scale(1.3);
+        animation: imageReveal 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        animation-delay: 0.2s;
+    }
+
+    @keyframes shutterOpen {
+        0% { transform: scaleX(1); }
+        100% { transform: scaleX(0); }
+    }
+
+    @keyframes imageReveal {
+        0% { opacity: 0; transform: scale(1.3); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* --- 2. THE MASKED TEXT REVEAL --- */
+    .mask-container {
+        overflow: hidden;
+        display: block;
+        line-height: 0.9;
+    }
+
+    .reveal-text {
+        display: block;
+        transform: translateY(110%);
+        animation: textRise 1.2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+    }
+
+    @keyframes textRise {
+        0% { transform: translateY(110%) skewY(10deg); opacity: 0; }
+        100% { transform: translateY(0) skewY(0deg); opacity: 1; }
+    }
+
+    /* Delays */
+    .delay-1 { animation-delay: 0.4s; }
+    .delay-2 { animation-delay: 0.6s; }
+    .delay-3 { animation-delay: 0.8s; }
+    .delay-4 { animation-delay: 1.0s; }
+
+</style>
+
+<section class="w-full min-h-screen flex flex-col md:flex-row bg-white overflow-hidden">
+    
+    <div class="w-full h-[50vh] md:h-auto md:w-1/2 relative flex items-center p-4 md:py-20 md:pl-20 md:pr-0 z-0">
+        
+        <div class="w-full h-full md:h-[90vh] relative rounded-2xl overflow-hidden shadow-2xl shutter-container">
+            
+            <div class="shutter-overlay"></div>
+            
+            <img src="website-20251202T201341Z-1-001/website/IMG-20250418-WA0004.jpg" 
+                 class="absolute inset-0 w-full h-full object-cover shutter-image" 
+                 alt="Interior Design">
+            
+            <div class="absolute inset-0 bg-black/5 z-10"></div>
+        </div>
+    </div>
+
+    <div class="w-full md:w-1/2 flex flex-col justify-center md:justify-between p-6 md:p-20 text-black relative z-10">
+        
+        <div class="w-full flex justify-start md:justify-end mb-4 md:mb-0 mask-container">
+            <span class="font-serif italic text-sm md:text-lg tracking-wide text-gray-500 reveal-text delay-1">(OUR BELIEFS)</span>
+        </div>
+
+        <div class="my-4 md:my-0 relative z-50">
+            <h2 class="text-[12vw] md:text-[6vw] leading-[0.9] font-latto uppercase drop-shadow-lg text-left md:text-right">
+                
+                <span class="mask-container">
+                    <span class="reveal-text delay-2">Every Line</span>
+                </span>
+                
+                <span class="block md:inline-block md:-ml-[20vw] mask-container">
+    <span class="reveal-text delay-3">
+        <span class="text-gray-400">Carries</span> <span class="text-black">Meaning</span>
+    </span>
+</span>
+                </span>
+            </h2>
+        </div>
+
+        <div class="flex flex-col items-start md:items-end text-left md:text-right gap-6 md:gap-8 mt-6 md:mt-0">
+            <div class="mask-container">
+                <p class="text-sm md:text-lg leading-relaxed text-gray-800 w-full md:max-w-lg text-left reveal-text delay-4 font-light">
+            As an architect driven by innovation and a passion for sustainable design, 
+            I lead Anant Agrawal Architects with a commitment to crafting spaces that blend creativity, 
+            functionality, and environmental responsibility.
+            I bring visionary concepts to life, delivering tailored solutions that reflect each client’s 
+            unique aspirations.
+        </p>
+            </div>
+            
+            <div class="mask-container">
+                <div class="reveal-text delay-4">
+                    <a href="about.html" class="inline-block px-8 py-3 md:px-10 md:py-4 bg-black text-white rounded-full text-xs font-bold tracking-widest hover:bg-gray-800 transition duration-300">
+                        About
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+    <section class="h-[150vh] relative bg-[#F0EBE0] flex items-center justify-center overflow-hidden" id="innovation-section">
+        <div class="absolute top-20 left-1/2 transform -translate-x-1/2 text-center">
+            <div class="serif italic">Innovation</div>
+        </div>
+
+        <div class="innovation-text-container relative w-full h-full flex items-center justify-center">
+            <img src="website-20251202T201341Z-1-001/website/generated-image (43).png" 
+         class="absolute top-0 left-0 w-full h-full object-cover z-0" 
+         alt="Background Architects">
+            <h2 class="text-[7vw] serif uppercase leading-none text-center whitespace-nowrap mix-blend-darken">
+                <span class="scatter-letter inline-block">T</span>
+                <span class="scatter-letter inline-block">h</span>
+                <span class="scatter-letter inline-block">e</span>
+                
+                <span class="ml-10 scatter-letter inline-block">S</span>
+                <span class="scatter-letter inline-block">c</span>
+                <span class="scatter-letter inline-block">i</span>
+                <span class="scatter-letter inline-block">e</span>
+                <span class="scatter-letter inline-block">n</span>
+                <span class="scatter-letter inline-block">c</span>
+                <span class="scatter-letter inline-block">e</span>
+                <br>
+
+                <span class="scatter-letter inline-block">O</span>
+                <span class="scatter-letter inline-block">f</span>
+                
+                <span class="ml-10 scatter-letter inline-block">I</span>
+                <span class="scatter-letter inline-block">m</span>
+                <span class="scatter-letter inline-block">a</span>
+                <span class="scatter-letter inline-block">g</span>
+                <span class="scatter-letter inline-block">i</span>
+                <span class="scatter-letter inline-block">n</span>
+                <span class="scatter-letter inline-block">a</span>
+                <span class="scatter-letter inline-block">t</span>
+                <span class="scatter-letter inline-block">i</span>
+                <span class="scatter-letter inline-block">o</span>
+                <span class="scatter-letter inline-block">n</span>
+            </h2>
+        </div>
+    </section>
+
+    <div id="projects-vertical" class="relative bg-[#1a1a1a]">
+    
+    <section class="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden border-b border-white/5 shadow-2xl">
+        <img src="website-20251202T201341Z-1-001/website/Fluxolance.png" 
+             class="absolute top-0 left-0 w-full h-full object-cover project-bg scale-100 z-0" 
+             alt="Shizuka Gardens">
+        
+        <div class="absolute top-0 left-0 w-full h-full bg-black/40 z-10"></div>
+        
+        <div class="relative z-20 text-center text-[#F0EBE0]">
+            <p class="uppercase tracking-[0.5em] text-xs mb-4 opacity-80">London, UK</p>
+            <h2 class="text-[15vw] md:text-[12vw] serif uppercase leading-[0.8] md:leading-none text-center whitespace-normal md:whitespace-nowrap mix-blend-darken">FLUXOLANCE</h2>
+            <a href="projects.html" class="uppercase text-xs tracking-widest border-b border-[#F0EBE0] inline-block pb-1 cursor-pointer hover:opacity-70 transition">
+                    View Case
+                </a>
+        </div>
+    </section>
+
+    <section class="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden border-b border-white/5 shadow-2xl">
+        <img src="website-20251202T201341Z-1-001/website/Curvair.png" 
+             class="absolute top-0 left-0 w-full h-full object-cover project-bg scale-100 z-0" 
+             alt="The Home">
+        
+        <div class="absolute top-0 left-0 w-full h-full bg-black/40 z-10"></div>
+        
+        <div class="relative z-20 text-center text-[#F0EBE0]">
+            <p class="uppercase tracking-[0.5em] text-xs mb-4 opacity-80">Indore, IND</p>
+            <h2 class="text-[15vw] md:text-[12vw] serif uppercase leading-[0.8] md:leading-none text-center whitespace-normal md:whitespace-nowrap mix-blend-darken">CURVAIR</h2>
+           <a href="projects.html" class="uppercase text-xs tracking-widest border-b border-[#F0EBE0] inline-block pb-1 cursor-pointer hover:opacity-70 transition">
+                    View Case
+                </a>
+        </div>
+    </section>
+
+    <section class="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden border-b border-white/5 shadow-2xl">
+        <img src="website-20251202T201341Z-1-001/website/Biomorph.png" 
+             class="absolute top-0 left-0 w-full h-full object-cover project-bg scale-100 z-0" 
+             alt="ABS TY">
+        
+        <div class="absolute top-0 left-0 w-full h-full bg-black/40 z-10"></div>
+        
+        <div class="relative z-20 text-center text-[#F0EBE0]">
+            <p class="uppercase tracking-[0.5em] text-xs mb-4 opacity-80">Mumbai, IND</p>
+            <h2 class="text-[15vw] md:text-[12vw] serif uppercase leading-[0.8] md:leading-none text-center whitespace-normal md:whitespace-nowrap mix-blend-darken">BIOMORPH</h2>
+            <a href="projects.html" class="uppercase text-xs tracking-widest border-b border-[#F0EBE0] inline-block pb-1 cursor-pointer hover:opacity-70 transition">
+                    View Case
+                </a>
+        </div>
+    </section>
+
+</div>
+    <footer class="footer">
+    <div class="footer-content">
+        <div class="footer-top">
+            
+            <div class="footer-brand">
+                <a href="#" class="logo">ANANT AGRAWAL ARCHITECTS</a>
+                <p style="margin-top: 1rem; color: #666; font-family: 'Manrope', sans-serif; font-size: 0.9rem; max-width: 24rem;">
+                    Redefining architecture through the harmonious blend of innovation, 
+                    sustainability, and tradition.
+                </p>
+            </div>
+
+            <div class="footer-nav">
+                <span>Navigation</span>
+                <ul>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <span>Contact</span>
+                <ul>
+                    <li>Mumbai, India</li>
+                    <li>info@anantagrawalarchitects.in</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 Anant Agrawal Architects. All rights reserved.</p>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-black transition">Designed by Gurvendra</a> 
+                
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+

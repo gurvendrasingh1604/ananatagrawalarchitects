@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services | Anant Agrawal Architects</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* --- RESET & VARIABLES --- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #ffffff; --fg: #1a1a1a; --card: #f5f5f5; --secondary: #fafafa;
+      --muted: #e5e5e5; --muted-foreground: #666666; --accent: #c9b29a;
+      --border: rgba(0, 0, 0, 0.1);
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--fg); overflow-x: hidden; }
+    
+    /* Typography */
+    h1, h2, h3 { font-family: var(--font-serif); font-weight: 300; color: var(--fg); }
+    img { max-width: 100%; height: auto; display: block; }
+    
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+    .section-title { font-size: 2.5rem; line-height: 1.1; margin-top: 10px; }
+    .section-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted-foreground); font-weight: 600; }
+    .body-text { font-size: 1rem; line-height: 1.8; color: var(--muted-foreground); }
+    .symbol-text { font-size: 1.25rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent); font-family: var(--font-sans); }
+
+    /* --- MENU STYLES --- */
+    .hamburger-box { width: 30px; height: 12px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
+    .hamburger-box:hover { opacity: 0.7; }
+    .h-line { width: 100%; height: 1px; background: #000; transition: 0.3s; }
+    
+    .glass-menu {
+        position: fixed; top: 0; right: 0; height: 100vh; width: 100%; max-width: 450px;
+        background: rgba(10, 10, 10, 0.3); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+        z-index: 150; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+    .menu-open { transform: translateX(0); }
+    .menu-link { display: block; transform: translateX(50px); opacity: 0; transition: 0.5s ease; color: white; }
+    .menu-link.slide-in { transform: translateX(0); opacity: 1; }
+
+    nav { transition: transform 0.4s ease-in-out; }
+    .nav-hidden { transform: translateY(-100%); }
+
+    /* --- HERO --- */
+    .hero { position: relative; min-height: 70vh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+    
+    .hero-bg { position: absolute; inset: 0; z-index: 0; }
+    .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-bg::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.3); } 
+    
+    .hero-content { position: relative; z-index: 10; color: white; }
+    
+    /* --- SERVICES LIST --- */
+    .services-list { padding-top: 6rem; padding-bottom: 8rem; }
+    .service-item { 
+        border-top: 1px solid var(--border); 
+        padding: 3rem 0; 
+        transition: background 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+    .service-item:last-child { border-bottom: 1px solid var(--border); }
+    
+    .service-grid { 
+        display: grid; gap: 2rem; 
+        transition: transform 0.3s;
+    }
+    @media(min-width: 768px){ 
+        .service-grid { grid-template-columns: 0.5fr 1.5fr 1.5fr; align-items: flex-start; } 
+    }
+
+    .service-num { font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent); }
+    .service-name { font-family: var(--font-serif); font-size: 2.5rem; color: var(--fg); line-height: 1; }
+    @media(min-width: 768px){ .service-name { font-size: 3.5rem; } }
+    
+    .service-desc { max-width: 30rem; }
+    
+    /* Image Reveal on Hover */
+    .service-img-wrapper {
+        margin-top: 2rem;
+        height: 0;
+        overflow: hidden;
+        transition: height 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    .service-item:hover .service-img-wrapper { height: 400px; }
+    
+    .service-img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); }
+    .service-item:hover .service-img { filter: grayscale(0%); transform: scale(1.02); transition: 1s; }
+
+    /* --- FOOTER --- */
+    .footer { padding: 4rem 1.5rem; border-top: 1px solid rgba(0,0,0,0.1); }
+    .footer-top { display: grid; gap: 3rem; margin-bottom: 4rem; }
+    @media(min-width:768px){ .footer-top{ grid-template-columns: 2fr 1fr 1fr; } }
+
+    .animate-fade-up { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+    .visible { opacity: 1; transform: translateY(0); }
+    /* --- VERTICAL SIDE BUTTON --- */
+.side-btn-container {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+}
+
+.side-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a1a1a; /* Black background */
+    color: #ffffff;
+    padding: 1.5rem 0.6rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    text-decoration: none;
+    box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+}
+
+.side-btn:hover {
+    background: #c9b29a; /* Accent Color on Hover */
+    padding-right: 1rem; /* Slide out effect */
+}
+
+/* Vertical Text */
+.side-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg); /* Rotates text to read bottom-up */
+    font-family: 'DM Sans', sans-serif; /* Or your preferred sans-serif font */
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+/* --- FOOTER STYLES --- */
+.footer { 
+    background: #ffffff; 
+    padding: 4rem 1.5rem; 
+    border-top: 1px solid rgba(0,0,0,0.1); 
+    color: #1a1a1a;
+}
+@media (min-width: 768px) { .footer { padding: 6rem 3rem; } }
+
+.footer-content { max-width: 1280px; margin: 0 auto; }
+
+.footer-top { 
+    display: grid; 
+    gap: 3rem; 
+    margin-bottom: 4rem; 
+}
+@media (min-width: 768px) { .footer-top { grid-template-columns: 2fr 1fr 1fr; } }
+
+.footer-brand .logo { 
+    font-family: 'Cormorant Garamond', serif; /* Or 'Playfair Display' if used elsewhere */
+    font-size: 1.875rem; 
+    color: #1a1a1a; 
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.footer-nav span, .footer-contact span {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #999;
+    display: block;
+    margin-bottom: 1rem;
+    font-family: 'DM Sans', sans-serif; /* Or 'Manrope' */
+    font-weight: 600;
+}
+
+.footer-nav ul, .footer-contact ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    list-style: none;
+    padding: 0;
+}
+
+.footer-nav a, .footer-contact li {
+    color: #666;
+    transition: color 0.3s;
+    font-family: 'DM Sans', sans-serif; /* Or 'Manrope' */
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+.footer-nav a:hover { color: #000; }
+
+.footer-bottom { 
+    border-top: 1px solid rgba(0,0,0,0.1); 
+    padding-top: 2rem; 
+    display: flex; 
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: space-between; 
+    color: #999; 
+    font-size: 0.8rem;
+    font-family: 'DM Sans', sans-serif; /* Or 'Manrope' */
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+@media (min-width: 768px) { .footer-bottom { flex-direction: row; } }
+
+.footer-bottom a { color: inherit; text-decoration: none; transition: color 0.3s; }
+.footer-bottom a:hover { color: #000; }
+  </style>
+</head>
+<body>
+<div class="side-btn-container">
+      <a href="site-visits.html" class="side-btn">
+          <span class="side-text">Site Visits</span>
+      </a>
+  </div>
+  <div id="fs-menu" class="glass-menu">
+      <div class="absolute bottom-10 left-10 text-[100px] opacity-10 font-serif text-white">∞</div>
+      <div class="menu-links-container w-full pl-20 flex flex-col gap-8">
+          <a href="index.html" class="menu-link text-4xl font-serif">Home</a>
+          <a href="about.html" class="menu-link text-4xl font-serif">About</a>
+          <a href="projects.html" class="menu-link text-4xl font-serif">Projects</a>
+          <a href="services.html" class="menu-link text-4xl font-serif">Services</a>
+          <a href="contact.html" class="menu-link text-4xl font-serif">Contact</a>
+      </div>
+      <div id="menu-close" class="absolute top-10 right-10 cursor-pointer text-xs uppercase tracking-widest text-white">Close</div>
+  </div>
+
+  <nav id="main-nav" class="fixed top-0 left-0 w-full px-5 md:px-10 py-6 flex justify-between items-center z-50 mix-blend-difference text-[#F0EBE0]">
+      <div class="text-xl font-bold tracking-widest uppercase cursor-pointer">ANANT AGRAWAL ARCHITECTS</div>
+      <div id="menu-trigger" class="cursor-pointer p-2">
+          <div class="hamburger-box"><div class="h-line bg-[#F0EBE0]"></div><div class="h-line bg-[#F0EBE0]"></div></div>
+      </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg">
+        <img src="website-20251202T201341Z-1-001/website/4/12.jpeg" alt="London Skyscrapers">
+    </div>
+    <div class="hero-content container">
+        <span class="symbol-text animate-fade-up text-white">∞</span>
+        <h1 class="section-title animate-fade-up mt-4 text-white">Our Expertise</h1>
+        <p class="body-text animate-fade-up mt-6 max-w-xl text-white/90">
+            We offer a holistic approach to the built environment, integrating architectural vision with scientific rigor and construction precision.
+        </p>
+    </div>
+  </section>
+
+  <section class="services-list container animate-fade-up">
+      
+      <div class="service-item group">
+          <div class="service-grid">
+              <span class="service-num">01</span>
+              <h2 class="service-name">Architecture<br>Designing</h2>
+              <div class="service-desc">
+                  <p class="body-text">
+                      Crafting spaces that harmonize functionality with artistic vision. We design environments that stand the test of time, focusing on spatial flow, light, and materiality.
+                  </p>
+                  <div class="service-img-wrapper">
+                      <img src="website-20251202T201341Z-1-001/website/1/WhatsApp Image 2025-12-11 at 10.09.53 PM.jpeg" class="service-img" alt="Architecture High Rise">
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="service-item group">
+          <div class="service-grid">
+              <span class="service-num">02</span>
+              <h2 class="service-name">Sustainability<br>Consultancy</h2>
+              <div class="service-desc">
+                  <p class="body-text">
+                      Optimizing building performance through climate-aware strategies. From urban microclimate analysis to carbon footprint reduction, we ensure your project is future-proof.
+                  </p>
+                  <div class="service-img-wrapper">
+                      <img src="website-20251202T201341Z-1-001/website/Curvair.png" class="service-img" alt="Sustainability Green Wall">
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="service-item group">
+          <div class="service-grid">
+              <span class="service-num">03</span>
+              <h2 class="service-name">Facade<br>Consultancy</h2>
+              <div class="service-desc">
+                  <p class="body-text">
+                      Engineering high-performance building envelopes. We balance aesthetics with thermal efficiency, utilizing advanced materials to create facades that breathe.
+                  </p>
+                  <div class="service-img-wrapper">
+                      <img src="website-20251202T201341Z-1-001/website/Biomorph.png" class="service-img" alt="Facade Design">
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="service-item group">
+          <div class="service-grid">
+              <span class="service-num">04</span>
+              <h2 class="service-name">Building &<br>Developing</h2>
+              <div class="service-desc">
+                  <p class="body-text">
+                      End-to-end execution. We bridge the gap between design and construction, managing the development process to deliver turnkey solutions with precision quality.
+                  </p>
+                  <div class="service-img-wrapper">
+                      <img src="website-20251202T201341Z-1-001/website/Fluxolance.png" class="service-img" alt="Building and Development">
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+        <div class="footer-top">
+            
+            <div class="footer-brand">
+                <a href="#" class="logo">ANANT AGRAWAL ARCHITECTS</a>
+                <p style="margin-top: 1rem; color: #666; font-family: 'Manrope', sans-serif; font-size: 0.9rem; max-width: 24rem;">
+                    Redefining architecture through the harmonious blend of innovation, 
+                    sustainability, and tradition.
+                </p>
+            </div>
+
+            <div class="footer-nav">
+                <span>Navigation</span>
+                <ul>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <span>Contact</span>
+                <ul>
+                    <li>Mumbai, India</li>
+                    <li>info@anantagrawalarchitects.in</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 Anant Agrawal Architects. All rights reserved.</p>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-black transition">Designed by Gurvendra</a> 
+                
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+  <script>
+    // --- MENU ---
+    const trigger = document.getElementById('menu-trigger');
+    const closeBtn = document.getElementById('menu-close');
+    const menu = document.getElementById('fs-menu');
+    const links = document.querySelectorAll('.menu-link');
+
+    if(trigger){
+        trigger.onclick = () => {
+            menu.classList.add('menu-open');
+            links.forEach((l,i) => setTimeout(() => l.classList.add('slide-in'), 300 + i*100));
+        };
+        closeBtn.onclick = () => {
+            menu.classList.remove('menu-open');
+            links.forEach(l => l.classList.remove('slide-in'));
+        };
+    }
+
+    // --- NAVBAR HIDE ---
+    let lastScroll = 0;
+    const navbar = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+        let current = window.pageYOffset;
+        if(current < 0) return;
+        navbar.classList.toggle('nav-hidden', current > lastScroll && current > 50);
+        lastScroll = current;
+    });
+
+    // --- ANIMATIONS ---
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.animate-fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

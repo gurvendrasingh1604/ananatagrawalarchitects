@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site Visits | Anant Agrawal Architects</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* --- RESET & VARIABLES --- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #ffffff; --fg: #1a1a1a; --muted: #e5e5e5; --accent: #c9b29a;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+    }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--fg); overflow-x: hidden; }
+    
+    /* Typography */
+    .section-title { font-family: var(--font-serif); font-size: 3rem; line-height: 1; font-weight: 300; }
+    .symbol-text { font-size: 2rem; color: var(--accent); opacity: 0.5; }
+    .body-text { color: #666; line-height: 1.6; max-width: 600px; margin: 0 auto; }
+
+    /* --- FLOATING MASONRY GALLERY --- */
+    .gallery-wrapper {
+        padding: 4rem 1.5rem 8rem;
+        max-width: 1600px;
+        margin: 0 auto;
+    }
+
+    .gallery-columns {
+        column-count: 1;
+        column-gap: 2rem;
+    }
+    @media(min-width: 640px) { .gallery-columns { column-count: 2; } }
+    @media(min-width: 1024px) { .gallery-columns { column-count: 3; } }
+    @media(min-width: 1400px) { .gallery-columns { column-count: 4; } }
+
+    .gallery-card {
+        break-inside: avoid;
+        margin-bottom: 2rem;
+        position: relative;
+        border-radius: 4px;
+        overflow: hidden;
+        transform: translateY(0);
+        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    /* Floating Hover Effect */
+    .gallery-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        z-index: 10;
+    }
+
+    .gallery-card img {
+        width: 100%;
+        height: auto;
+        display: block;
+        filter: grayscale(100%);
+        transition: filter 0.5s ease;
+    }
+    .gallery-card:hover img { filter: grayscale(0%); }
+
+    /* Caption Overlay */
+    .card-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 1.5rem;
+    }
+    .gallery-card:hover .card-overlay { opacity: 1; }
+
+    .card-title { color: white; font-family: var(--font-serif); font-size: 1.25rem; transform: translateY(10px); transition: transform 0.3s; }
+    .card-loc { color: #ccc; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; transform: translateY(10px); transition: transform 0.3s delay 0.05s; }
+    
+    .gallery-card:hover .card-title, 
+    .gallery-card:hover .card-loc { transform: translateY(0); }
+
+    /* --- OFFSET DESIGN (Staggered look) --- */
+    .gallery-card:nth-child(odd) { margin-top: 0; }
+    .gallery-card:nth-child(even) { margin-top: 2rem; }
+
+    /* --- MENU & NAVBAR --- */
+    .hamburger-box { width: 30px; height: 12px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
+    .h-line { width: 100%; height: 1px; background: #000; transition: 0.3s; }
+    .glass-menu { position: fixed; top: 0; right: 0; height: 100vh; width: 100%; max-width: 450px; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); transform: translateX(100%); transition: 0.6s cubic-bezier(0.77,0,0.175,1); z-index: 150; display: flex; flex-direction: column; justify-content: center; align-items: center; border-left: 1px solid rgba(0,0,0,0.1); }
+    .menu-open { transform: translateX(0); }
+    .menu-link { display: block; transform: translateX(50px); opacity: 0; transition: 0.5s ease; color: black; font-size: 2.5rem; font-family: var(--font-serif); margin-bottom: 2rem; }
+    .menu-link.slide-in { transform: translateX(0); opacity: 1; }
+
+    /* Animation Classes */
+    .fade-up-entry { opacity: 0; transform: translateY(30px); }
+
+    /* --- FOOTER STYLES --- */
+.footer { 
+    background: #ffffff; 
+    padding: 4rem 1.5rem; 
+    border-top: 1px solid rgba(0,0,0,0.1); 
+    color: #1a1a1a;
+}
+@media (min-width: 768px) { .footer { padding: 6rem 3rem; } }
+
+.footer-content { max-width: 1280px; margin: 0 auto; }
+
+.footer-top { 
+    display: grid; 
+    gap: 3rem; 
+    margin-bottom: 4rem; 
+}
+@media (min-width: 768px) { .footer-top { grid-template-columns: 2fr 1fr 1fr; } }
+
+.footer-brand .logo { 
+    font-family: 'Cormorant Garamond', serif; /* Or 'Playfair Display' if used elsewhere */
+    font-size: 1.875rem; 
+    color: #1a1a1a; 
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.footer-nav span, .footer-contact span {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #999;
+    display: block;
+    margin-bottom: 1rem;
+    font-family: 'DM Sans', sans-serif; /* Or 'Manrope' */
+    font-weight: 600;
+}
+
+.footer-nav ul, .footer-contact ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    list-style: none;
+    padding: 0;
+}
+
+.footer-nav a, .footer-contact li {
+    color: #666;
+    transition: color 0.3s;
+    font-family: 'DM Sans', sans-serif; /* Or 'Manrope' */
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+.footer-nav a:hover { color: #000; }
+
+.footer-bottom { 
+    border-top: 1px solid rgba(0,0,0,0.1); 
+    padding-top: 2rem; 
+    display: flex; 
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: space-between; 
+    color: #999; 
+    font-size: 0.8rem;
+    font-family: 'DM Sans', sans-serif; /* Or 'Manrope' */
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+@media (min-width: 768px) { .footer-bottom { flex-direction: row; } }
+
+.footer-bottom a { color: inherit; text-decoration: none; transition: color 0.3s; }
+.footer-bottom a:hover { color: #000; }
+</style>
+</head>
+<body>
+
+  <div id="fs-menu" class="glass-menu">
+      <div class="menu-links-container w-full pl-20 flex flex-col">
+          <a href="index.html" class="menu-link">Home</a>
+          <a href="about.html" class="menu-link">About</a>
+          <a href="projects.html" class="menu-link">Projects</a>
+          <a href="services.html" class="menu-link">Services</a>
+          <a href="contact.html" class="menu-link">Contact</a>
+      </div>
+      <div id="menu-close" class="absolute top-10 right-10 cursor-pointer text-black text-xs uppercase tracking-widest">Close</div>
+  </div>
+
+  <nav class="fixed top-0 left-0 w-full px-5 md:px-10 py-6 flex justify-between items-center z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <div class="text-xl font-bold tracking-widest uppercase cursor-pointer text-black">ANANT AGRAWAL ARCHITECTS</div>
+      <div id="menu-trigger" class="cursor-pointer p-2">
+          <div class="hamburger-box"><div class="h-line bg-black"></div><div class="h-line bg-black"></div></div>
+      </div>
+  </nav>
+
+  <header class="pt-40 pb-20 px-6 text-center">
+      <div class="symbol-text animate-fade">∞</div>
+      <h1 class="section-title mt-4 animate-fade">Visual Diary</h1>
+      <p class="body-text mt-4 animate-fade">
+          A curated collection of site visits, material studies, and architectural explorations across London, Paris, and Cardiff.
+      </p>
+  </header>
+
+  <div class="gallery-wrapper">
+      <div class="gallery-columns" id="gallery-grid">
+          
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/1/WhatsApp Image 2025-12-11 at 10.09.53 PM.jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Facade Geometry</h3>
+                  <p class="card-loc">London, UK</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/1/WhatsApp Image 2025-12-11 at 10.09.54 PM (1).jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Thermal Analysis</h3>
+                  <p class="card-loc">Site Data</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/1/WhatsApp Image 2025-12-11 at 10.09.54 PM (2).jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Living Walls</h3>
+                  <p class="card-loc">Paris, France</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/1/WhatsApp Image 2025-12-11 at 10.09.54 PM (3).jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Design Cohort</h3>
+                  <p class="card-loc">Field Study</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/1/WhatsApp Image 2025-12-11 at 10.09.54 PM.jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Heritage Detail</h3>
+                  <p class="card-loc">Cardiff Bay</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/1/WhatsApp Image 2025-12-11 at 10.09.55 PM (1).jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">High-Tech Systems</h3>
+                  <p class="card-loc">Lloyd's Building</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/1/WhatsApp Image 2025-12-11 at 10.09.55 PM.jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Urban Density</h3>
+                  <p class="card-loc">City of London</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/2/WhatsApp Image 2025-12-11 at 10.12.43 PM (1).jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Research Findings</h3>
+                  <p class="card-loc">Academic Review</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/2/WhatsApp Image 2025-12-11 at 10.12.43 PM.jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Pierhead Building</h3>
+                  <p class="card-loc">Cardiff</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/2/WhatsApp Image 2025-12-11 at 10.12.44 PM (1).jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">River Thames</h3>
+                  <p class="card-loc">Context Study</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/2/WhatsApp Image 2025-12-11 at 10.12.44 PM (1).jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Workshop Space</h3>
+                  <p class="card-loc">Interior Analysis</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/2/WhatsApp Image 2025-12-11 at 10.12.44 PM.jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Public Realm</h3>
+                  <p class="card-loc">London Streets</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/3/WhatsApp Image 2025-12-11 at 10.17.36 PM.jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Cultural Study</h3>
+                  <p class="card-loc">Art Museum</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/3/WhatsApp Image 2025-12-11 at 10.17.37 PM (1).jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Site Survey</h3>
+                  <p class="card-loc">London View</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/3/WhatsApp Image 2025-12-11 at 10.17.37 PM.jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Raw Concrete</h3>
+                  <p class="card-loc">Materiality</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/4/WhatsApp Image 2025-12-11 at 10.25.31 PM.jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Structural Steel</h3>
+                  <p class="card-loc">Detail</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/4/WhatsApp Image 2025-12-11 at 10.25.32 PM (1).jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Timber Texture</h3>
+                  <p class="card-loc">Materiality</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/4/WhatsApp Image 2025-12-11 at 10.25.32 PM.jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Glass Facade</h3>
+                  <p class="card-loc">Modernism</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/4/WhatsApp Image 2025-12-11 at 10.25.33 PM (1).jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Process Sketch</h3>
+                  <p class="card-loc">Studio</p>
+              </div>
+          </div>
+
+          <div class="gallery-card">
+              <img src="website-20251202T201341Z-1-001/website/4/WhatsApp Image 2025-12-11 at 10.25.33 PM (3).jpeg" loading="lazy">
+              <div class="card-overlay">
+                  <h3 class="card-title">Light Study</h3>
+                  <p class="card-loc">Atmosphere</p>
+              </div>
+          </div>
+
+      </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+        <div class="footer-top">
+            
+            <div class="footer-brand">
+                <a href="#" class="logo">ANANT AGRAWAL ARCHITECTS</a>
+                <p style="margin-top: 1rem; color: #666; font-family: 'Manrope', sans-serif; font-size: 0.9rem; max-width: 24rem;">
+                    Redefining architecture through the harmonious blend of innovation, 
+                    sustainability, and tradition.
+                </p>
+            </div>
+
+            <div class="footer-nav">
+                <span>Navigation</span>
+                <ul>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <span>Contact</span>
+                <ul>
+                    <li>Mumbai, India</li>
+                    <li>info@anantagrawalarchitects.in</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 Anant Agrawal Architects. All rights reserved.</p>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-black transition">Designed by Gurvendra</a> 
+                
+            </div>
+        </div>
+    </div>
+</footer>
+
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <script>
+    // Register GSAP
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Staggered Fade Up Animation for Gallery
+    const cards = document.querySelectorAll('.gallery-card');
+    
+    cards.forEach((card, index) => {
+        gsap.fromTo(card, 
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1, 
+                y: 0, 
+                duration: 0.8,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 90%", // Start animating when top of card hits 90% viewport height
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+    });
+
+    // Menu Logic
+    const menu = document.getElementById('fs-menu');
+    const links = document.querySelectorAll('.menu-link');
+    document.getElementById('menu-trigger').onclick = () => {
+        menu.classList.add('menu-open');
+        links.forEach((l,i) => setTimeout(() => l.classList.add('slide-in'), 300 + i*100));
+    };
+    document.getElementById('menu-close').onclick = () => {
+        menu.classList.remove('menu-open');
+        links.forEach(l => l.classList.remove('slide-in'));
+    };
+  </script>
+
+</body>
+</html>

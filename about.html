@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Anant Agrawal Architects</title>
+  <meta name="description" content="Discover Anant Agrawal - harmonizing innovation with sustainability and tradition.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* CSS Reset & Base */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* WHITE THEME VARIABLES */
+      --background: #ffffff;
+      --foreground: #1a1a1a;       
+      --card: #f5f5f5;
+      --secondary: #fafafa;        
+      --muted: #e5e5e5;
+      --muted-foreground: #666666; 
+      --accent: #c9b29a;           
+      --border: rgba(0, 0, 0, 0.1); 
+      
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--background);
+      color: var(--foreground);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      color: var(--foreground);
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a { text-decoration: none; color: inherit; transition: 0.3s; }
+    ul { list-style: none; }
+
+    /* Utility Classes */
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+    @media (min-width: 768px) { .container { padding: 0 3rem; } }
+    @media (min-width: 1024px) { .container { padding: 0 5rem; } }
+
+    .section-label {
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.3em;
+      color: var(--muted-foreground); font-family: var(--font-sans); font-weight: 600;
+    }
+
+    .section-title {
+      font-family: var(--font-serif); font-size: 2.5rem; font-weight: 300;
+      letter-spacing: -0.02em; line-height: 1.1; margin-top: 10px;
+    }
+    @media (min-width: 768px) { .section-title { font-size: 3rem; } }
+    @media (min-width: 1024px) { .section-title { font-size: 3.75rem; } }
+
+    .body-text {
+      font-family: var(--font-sans); font-size: 1rem; line-height: 1.8;
+      color: var(--muted-foreground);
+    }
+    @media (min-width: 768px) { .body-text { font-size: 1.125rem; } }
+
+    .symbol-text {
+      font-size: 1.25rem; 
+      text-transform: uppercase; letter-spacing: 0.2em;
+      color: var(--accent); font-family: var(--font-sans);
+      line-height: 1;
+    }
+
+    /* --- SIDE BUTTON --- */
+    .side-btn-container {
+        position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 100;
+    }
+    .side-btn {
+        display: flex; align-items: center; justify-content: center;
+        background: #1a1a1a; color: #ffffff; padding: 1.5rem 0.6rem;
+        cursor: pointer; transition: all 0.3s ease;
+        border-top-left-radius: 4px; border-bottom-left-radius: 4px;
+        text-decoration: none; box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+    }
+    .side-btn:hover { background: #c9b29a; padding-right: 1rem; }
+    .side-text {
+        writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg);
+        font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 600;
+        letter-spacing: 0.2em; text-transform: uppercase;
+    }
+
+    /* --- HAMBURGER ICON --- */
+    .hamburger-box {
+        width: 30px; height: 12px;
+        display: flex; flex-direction: column; justify-content: space-between;
+        cursor: pointer; transition: opacity 0.3s;
+    }
+    .hamburger-box:hover { opacity: 0.7; }
+    .h-line { width: 100%; height: 1px; background-color: #F0EBE0; transition: all 0.3s ease; }
+
+    /* --- SIDE STRIP MENU --- */
+    .glass-menu {
+        position: fixed; top: 0; right: 0; height: 100vh;
+        width: 100%; max-width: 450px; 
+        background: rgba(10, 10, 10, 0.3); /* Dark Glass */
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        transform: translateX(100%);
+        transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+        z-index: 150;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+    .menu-open { transform: translateX(0); }
+    .menu-link { display: block; transform: translateX(50px); opacity: 0; transition: all 0.5s ease; }
+    .menu-link.slide-in { transform: translateX(0); opacity: 1; }
+
+    /* --- NAVBAR HIDE ANIMATION --- */
+    nav { transition: transform 0.4s ease-in-out; }
+    .nav-hidden { transform: translateY(-100%); }
+
+    /* --- HERO SECTION --- */
+    .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; }
+    .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.4)); }
+
+    .hero-content {
+      position: relative; z-index: 10; flex: 1; display: flex; color: white;
+      flex-direction: column; justify-content: flex-end; padding: 5rem 1.5rem;
+    }
+    .hero-content h1, .hero-content p { color: white; }
+    @media (min-width: 768px) { .hero-content { padding: 8rem 3rem; } }
+
+    .hero-scroll {
+      position: absolute; top: 50%; left: 1.5rem; transform: translateY(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    }
+    @media (min-width: 768px) { .hero-scroll { left: 3rem; } }
+    .hero-scroll span { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 10px; letter-spacing: 0.2em; color: rgba(255,255,255,0.8); }
+    .hero-scroll .line { width: 1px; height: 4rem; background: rgba(255,255,255,0.5); }
+
+    /* --- SECTIONS LAYOUT --- */
+    /* Added .research to the padding list */
+    .origins, .team, .site-visits, .photo-diary, .awards, .research, .challenger { padding: 6rem 1.5rem; background: var(--background); }
+    @media (min-width: 768px) { 
+        .origins, .team, .site-visits, .photo-diary, .awards, .research, .challenger { padding: 8rem 3rem; } 
+    }
+    
+    .content-wrapper { max-width: 1280px; margin: 0 auto; }
+
+    /* Origins */
+    .origins-header { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 4rem; }
+    .origins-grid { display: grid; gap: 3rem; }
+    @media (min-width: 768px) { .origins-grid { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+    .origins-image img { width: 100%; aspect-ratio: 1; object-fit: cover; filter: grayscale(100%); transition: 0.7s; }
+    .origins-image:hover img { transform: scale(1.05); filter: grayscale(0%); }
+    .origins-text { display: flex; flex-direction: column; gap: 2rem; }
+    .origins-values { padding-top: 2rem; border-top: 1px solid var(--border); }
+    .origins-values ul { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .origins-values li { font-family: var(--font-serif); font-size: 1.25rem; display: flex; align-items: center; gap: 0.75rem; color: var(--foreground); }
+    .origins-values li span { width: 0.5rem; height: 1px; background: var(--accent); }
+
+    /* Team */
+    .team { background: var(--secondary); }
+    .team-grid { display: grid; gap: 3rem; }
+    @media (min-width: 768px) { .team-grid { grid-template-columns: 1fr 1.5fr; gap: 5rem; align-items: center; } }
+    .team-member-image img { width: 100%; aspect-ratio: 3/4; object-fit: cover; filter: grayscale(100%); transition: 0.7s; }
+    .team-member:hover .team-member-image img { transform: scale(1.02); filter: grayscale(0%); }
+    .team-member h3 { font-size: 1.5rem; color: var(--foreground); margin-top: 1.5rem; }
+    .team-member p { font-size: 0.875rem; color: var(--muted-foreground); text-transform: uppercase; letter-spacing: 0.1em; }
+
+    /* Site Visits */
+    .site-visits-header { margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: flex-end; }
+    .site-visits-grid { display: grid; gap: 3rem; }
+    @media (min-width: 768px) { .site-visits-grid { grid-template-columns: 1fr 1.5fr; gap: 5rem; align-items: flex-start; } }
+    .site-images { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .site-card img { width: 100%; height: 300px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; }
+    .site-card:hover img { filter: grayscale(0%); }
+    .site-card span { display: block; margin-top: 0.75rem; font-family: var(--font-sans); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted-foreground); }
+    .site-card.offset { margin-top: 4rem; }
+
+    /* --- VISUAL DIARY SLIDER --- */
+    .photo-diary { 
+        padding-top: 2rem; padding-bottom: 6rem;
+        border-bottom: 1px solid var(--border); 
+    }
+    .slider-container {
+        width: 100%;
+        overflow-x: auto;
+        display: flex;
+        gap: 1.5rem;
+        padding-bottom: 2rem; 
+        -ms-overflow-style: none; scrollbar-width: none; cursor: grab;
+    }
+    .slider-container:active { cursor: grabbing; }
+    .slider-container::-webkit-scrollbar { display: none; }
+    .slider-item { flex: 0 0 300px; height: 400px; position: relative; }
+    @media(min-width: 768px) { .slider-item { flex: 0 0 350px; height: 450px; } }
+    .slider-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: all 0.5s ease; pointer-events: none; }
+    .slider-item:hover img { filter: grayscale(0%); transform: scale(1.02); }
+    .slider-caption { margin-top: 1rem; font-size: 0.75rem; color: var(--muted-foreground); text-transform: uppercase; letter-spacing: 0.1em; }
+
+    /* Credentials & Research */
+    .awards, .research { background: var(--secondary); }
+    .awards-header { margin-bottom: 3rem; }
+    .awards-list { border-top: 1px solid var(--border); }
+    .award-item { display: grid; grid-template-columns: 2rem 1fr 1fr 3rem; gap: 1rem; align-items: center; padding: 1.5rem 1rem; border-bottom: 1px solid var(--border); transition: background 0.3s; }
+    @media (min-width: 768px) { .award-item { grid-template-columns: 3rem 1fr 1.5fr 4rem; } }
+    .award-item:hover { background: rgba(0,0,0,0.02); }
+    .award-rank { font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent); }
+    .award-org { font-family: var(--font-serif); font-size: 1.25rem; color: var(--foreground); }
+
+    /* Challenger */
+    .challenger { position: relative; overflow: hidden; }
+    .challenger-bg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0.05; pointer-events: none; }
+    .challenger-bg span { font-family: var(--font-serif); font-size: 30vw; color: black; } 
+    .challenger-content { position: relative; z-index: 10; max-width: 56rem; margin: 0 auto; text-align: center; }
+    .challenger-content blockquote { font-family: var(--font-serif); font-size: 1.875rem; line-height: 1.6; color: var(--foreground); }
+
+       /* --- FOOTER STYLES --- */
+.footer { 
+    background: #ffffff; 
+    padding: 4rem 1.5rem; 
+    border-top: 1px solid rgba(0,0,0,0.1); 
+    color: #1a1a1a;
+}
+@media (min-width: 768px) { .footer { padding: 6rem 3rem; } }
+
+.footer-content { max-width: 1280px; margin: 0 auto; }
+
+.footer-top { 
+    display: grid; 
+    gap: 3rem; 
+    margin-bottom: 4rem; 
+}
+@media (min-width: 768px) { .footer-top { grid-template-columns: 2fr 1fr 1fr; } }
+
+.footer-brand .logo { 
+    font-family: 'Cormorant Garamond', serif; /* Or 'Playfair Display' if used elsewhere */
+    font-size: 1.875rem; 
+    color: #1a1a1a; 
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.footer-nav span, .footer-contact span {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #999;
+    display: block;
+    margin-bottom: 1rem;
+    font-family: 'DM Sans', sans-serif; /* Or 'Manrope' */
+    font-weight: 600;
+}
+
+.footer-nav ul, .footer-contact ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    list-style: none;
+    padding: 0;
+}
+
+.footer-nav a, .footer-contact li {
+    color: #666;
+    transition: color 0.3s;
+    font-family: 'DM Sans', sans-serif; /* Or 'Manrope' */
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+.footer-nav a:hover { color: #000; }
+
+.footer-bottom { 
+    border-top: 1px solid rgba(0,0,0,0.1); 
+    padding-top: 2rem; 
+    display: flex; 
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: space-between; 
+    color: #999; 
+    font-size: 0.8rem;
+    font-family: 'DM Sans', sans-serif; /* Or 'Manrope' */
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+@media (min-width: 768px) { .footer-bottom { flex-direction: row; } }
+
+.footer-bottom a { color: inherit; text-decoration: none; transition: color 0.3s; }
+.footer-bottom a:hover { color: #000; }
+
+    /* Animations */
+    .animate-fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+    .visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <div class="side-btn-container">
+      <a href="site-visits.html" class="side-btn">
+          <span class="side-text">Site Visits</span>
+      </a>
+  </div>
+
+  <div id="fs-menu" class="glass-menu text-[#F0EBE0] border-l border-white/10">
+      <div class="absolute bottom-10 left-10 text-[100px] opacity-5 font-serif pointer-events-none select-none leading-none">
+          ∞
+      </div>
+      <div class="menu-links-container text-left w-full pl-20 flex flex-col gap-8 relative z-10">
+          <div><a href="index.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Home</a></div>
+          <div><a href="about.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">About</a></div>
+          <div><a href="projects.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Projects</a></div>
+          <div><a href="services.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Services</a></div>
+          <div><a href="contact.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Contact</a></div>
+      </div>
+      <div id="menu-close" class="absolute top-10 right-10 cursor-pointer text-xs uppercase tracking-widest hover:opacity-70 z-50 flex items-center gap-2">
+          <span>Close</span> <div class="w-4 h-[1px] bg-white"></div>
+      </div>
+  </div>
+
+  <nav id="main-nav" class="fixed top-0 left-0 w-full px-5 md:px-10 py-6 flex justify-between items-center z-50 mix-blend-difference text-[#F0EBE0]">
+      <div class="text-xl font-bold tracking-widest uppercase cursor-pointer">
+          ANANT AGRAWAL ARCHITECTS
+      </div>
+      <div id="menu-trigger" class="cursor-pointer group p-2">
+          <div class="hamburger-box">
+              <div class="h-line group-hover:bg-gray-400"></div>
+              <div class="h-line group-hover:bg-gray-400"></div>
+          </div>
+      </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="website-20251202T201341Z-1-001/website/generated-image (31).png" alt="Minimalist Japanese interior">
+    </div>
+    <div class="hero-content">
+      <div class="hero-scroll animate-fade-up">
+        <span class="section-label" style="color:white;">Scroll</span>
+      </div>
+      <div class="animate-fade-up" style="transition-delay: 100ms;">
+        <span class="symbol-text" style="color:white; opacity:0.8;">∞</span>
+      </div>
+      <h1 class="section-title animate-fade-up" style="transition-delay: 200ms;">About Us</h1>
+      <p class="body-text animate-fade-up" style="transition-delay: 300ms; color:rgba(255,255,255,0.8);">
+        Since inception, we have taken on the challenge of designing spaces that not only 
+        stand the test of time but evolve with it—enriching the lives of those who experience them.
+      </p>
+    </div>
+  </section>
+
+  <section class="origins animate-fade-up">
+    <div class="content-wrapper">
+        <div class="origins-header">
+        <h2 class="section-title">Building<br>with<br>Purpose</h2>
+        <span class="symbol-text">∞</span>
+        </div>
+        <div class="origins-grid">
+        <div class="origins-image">
+            <img src="website-20251202T201341Z-1-001/website/generated-image (62)1.png" alt="Modern sustainable architecture building">
+        </div>
+        <div class="origins-text">
+            <div>
+            <span class="section-label" style="display: block; margin-bottom: 1rem;">Our Origins</span>
+            <p class="body-text">
+                Anant Agrawal Architects was founded with a singular vision: to redefine architecture by 
+                harmonizing cutting-edge innovation with the principles of sustainability and 
+                tradition. Our story is one of rebirth—a commitment to building 
+                spaces that honor the environment while pushing the boundaries of what's possible 
+                in modern design.
+            </p>
+            </div>
+            <p class="body-text">
+            Inspired by the blend of cultural heritage and forward-thinking technology, 
+            we seek to challenge conventional practices. We create 
+            living spaces that breathe, adapt, and regenerate—offering both functionality and 
+            a lasting positive impact on urban landscapes.
+            </p>
+            <div class="origins-values">
+            <span class="section-label">Our Philosophy</span>
+            <ul>
+                <li><span></span>Regeneration</li>
+                <li><span></span>Innovation</li>
+                <li><span></span>Sustainability</li>
+            </ul>
+            </div>
+        </div>
+        </div>
+    </div>
+  </section>
+
+  <section class="team animate-fade-up">
+    <div class="content-wrapper">
+      <h2 class="section-title" style="margin-bottom: 3rem;">Leadership</h2>
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="team-member-image">
+            <img src="website-20251202T201341Z-1-001/website/IMG-20250418-WA0004.jpg" alt="Anant Agrawal">
+          </div>
+          <div class="team-member-info">
+            <h3>ANANT AGRAWAL</h3>
+            <p>Founder & Lead Architect</p>
+          </div>
+        </div>
+        <div class="team-bio">
+          <p class="body-text">
+            Anant Agrawal Architects was founded with a singular vision: to redefine architecture by 
+            harmonizing cutting-edge innovation with the principles of sustainability and 
+            tradition. Our story is one of rebirth—a commitment to building 
+            spaces that honor the environment while pushing the boundaries of what's possible 
+            in modern design.
+            <br><br>
+            Inspired by the blend of cultural heritage and forward-thinking technology, 
+            we seek to challenge conventional practices. We create 
+            living spaces that breathe, adapt, and regenerate—offering both functionality and 
+            a lasting positive impact on urban landscapes.
+          </p><br>
+          <p class="body-text">
+            Academically, I hold a Bachelor’s degree in Architecture (B.Arch) from Mumbai University, India, 
+            and a Master’s in Sustainable Mega Buildings (MSc) from the prestigious Cardiff University, 
+            UK—ranked among the top 5 universities globally in Architecture by QS World Rankings. 
+            This academic foundation, combined with hands-on experience, allows me to approach each 
+            project with a balance of creativity, technical precision, and global perspective.
+            <br><br>
+            This journey is ongoing, driven by the belief that good architecture shapes not just skylines but 
+            the way we live, work, and connect. At Anant Agrawal Architects, we partner closely with clients, 
+            guiding them through every phase—from concept 
+            development to execution—to realize exceptional architectural experiences grounded in innovation and integrity.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="site-visits animate-fade-up">
+    <div class="content-wrapper">
+        <div class="site-visits-header">
+            <h2 class="section-title">In The Field</h2>
+            <span class="symbol-text">∞</span>
+        </div>
+        
+        <div class="site-visits-grid">
+            <div class="site-text">
+                <span class="section-label" style="display:block; margin-bottom:1rem;">The Process</span>
+                <p class="body-text">
+                    During my Sustainable Mega Buildings studies at Cardiff University’s Welsh School of Architecture, 
+                    I participated in an advanced urban climate walk through 
+                    London’s high-rise district, guided by Dr. Julie (Ann) Futcher. 
+                    This experience, alongside fellow students and Professors Tania Sharmin and Eshrar Latif, 
+                    deepened my expertise in analyzing how tall buildings influence complex urban microclimates.
+                </p>
+                <br>
+                <p class="body-text">
+                     
+                    It enhanced my ability to design high-rise projects that thoughtfully respond to their environmental 
+                    context, optimizing both performance and occupant comfort. 
+                    This hands-on exposure underscores my commitment to delivering sophisticated, 
+                    climate-aware architecture informed by cutting-edge research and real-world observation.
+                </p>
+            </div>
+
+            <div class="site-images">
+                <div class="site-card">
+                    <img src="website-20251202T201341Z-1-001/website/2.png" alt="Construction Details">
+                    <span>Site Inspection, Indore</span>
+                </div>
+                <div class="site-card offset">
+                    <img src="website-20251202T201341Z-1-001/website/4/1.jpeg" alt="Architect on site">
+                    <span>Material Selection, London</span>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <section class="photo-diary animate-fade-up">
+      <div class="content-wrapper">
+          <span class="section-label" style="display:block; margin-bottom:2rem;">Visual Diary</span>
+          
+          <div class="slider-container">
+              <div class="slider-item">
+                  <img src="website-20251202T201341Z-1-001/website/generated-image (45).png" alt="Sketches">
+                  <div class="slider-caption">01. Conceptual Sketches</div>
+              </div>
+              <div class="slider-item">
+                  <img src="website-20251202T201341Z-1-001/website/project/_.jpeg" alt="Raw Concrete">
+                  <div class="slider-caption">02. Material Palette</div>
+              </div>
+              <div class="slider-item">
+                  <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80" alt="Site Structure">
+                  <div class="slider-caption">03. Structural Frame</div>
+              </div>
+              <div class="slider-item">
+                  <img src="website-20251202T201341Z-1-001/website/Opulent Studio.jpg" alt="Interiors">
+                  <div class="slider-caption">04. Light Studies</div>
+              </div>
+              <div class="slider-item">
+                  <img src="website-20251202T201341Z-1-001/website/Elite Manor.png" alt="Finishing">
+                  <div class="slider-caption">05. Final Touches</div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <section class="awards animate-fade-up">
+    <div class="content-wrapper">
+      <div class="awards-header">
+        <h2 class="section-title">Credentials</h2>
+        <span class="section-label">Education & Research</span>
+      </div>
+      <div class="awards-list border-t border-black/10">
+        
+        <div class="award-item py-6 border-b border-black/10 flex justify-between items-center hover:bg-black/5 transition px-4 -mx-4">
+          <span class="text-2xl text-[#c9b29a] font-serif">01</span>
+          <span class="font-serif text-xl">Bachelor's of Architecture</span>
+          <span class="text-sm text-gray-500 hidden md:block">Mumbai University</span>
+          <span class="text-sm text-gray-500">India</span>
+        </div>
+
+        <div class="award-item py-6 border-b border-black/10 flex justify-between items-center hover:bg-black/5 transition px-4 -mx-4">
+          <span class="text-2xl text-[#c9b29a] font-serif">02</span>
+          <span class="font-serif text-xl">Master of Sciences in Sustainable Mega Buildings</span>
+          <span class="text-sm text-gray-500 hidden md:block">Cardiff University</span>
+          <span class="text-sm text-gray-500">United Kingdom</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="research animate-fade-up">
+    <div class="content-wrapper">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-8">
+            <div>
+                <h2 class="section-title">Research<br>Publications</h2>
+                <span class="symbol-text">∞</span>
+            </div>
+            <a href="https://www.researchgate.net/profile/Anant-Agrawal-10" target="_blank" class="hidden md:inline-block px-8 py-3 bg-[#1a1a1a] text-white rounded-full text-xs font-bold tracking-widest hover:bg-[#c9b29a] transition duration-300">
+                View on ResearchGate
+            </a>
+        </div>
+        
+        <div class="border-t border-black/10 pt-8">
+            <p class="body-text mb-8">
+                Our practice is grounded in rigorous academic inquiry. We actively contribute to the global body of knowledge on sustainable architecture, microclimate analysis, and heritage retrofitting. Access our full list of peer-reviewed papers, conference proceedings, and technical reports on ResearchGate.
+            </p>
+            
+            <a href="https://www.researchgate.net/profile/Anant-Agrawal-10" target="_blank" class="md:hidden inline-block px-8 py-3 bg-[#1a1a1a] text-white rounded-full text-xs font-bold tracking-widest hover:bg-[#c9b29a] transition duration-300">
+                View Profile
+            </a>
+        </div>
+    </div>
+  </section>
+
+  <section class="challenger animate-fade-up">
+    <div class="challenger-bg">
+      <span>∞</span>
+    </div>
+    <div class="challenger-content">
+      <span class="symbol-text">Why Choose Us</span>
+      <blockquote>
+        We leverage all digital portal for rapid submissions, minimizing rejections common in manual processes.
+        Expertise in sustainable designs aligns with your IGBC/LEED goals,
+        ensuring certified plans that boost project value. Local knowledge covers TDR integration for optimal FSI usage. Start with a free site audit today.​ </blockquote>
+        <br><a href="contact.html" class="inline-block px-8 py-3 md:px-10 md:py-4 bg-black text-white rounded-full text-xs font-bold tracking-widest hover:bg-gray-800 transition duration-300">
+          Contact Us</a>
+      </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+        <div class="footer-top">
+            
+            <div class="footer-brand">
+                <a href="#" class="logo">ANANT AGRAWAL ARCHITECTS</a>
+                <p style="margin-top: 1rem; color: #666; font-family: 'Manrope', sans-serif; font-size: 0.9rem; max-width: 24rem;">
+                    Redefining architecture through the harmonious blend of innovation, 
+                    sustainability, and tradition.
+                </p>
+            </div>
+
+            <div class="footer-nav">
+                <span>Navigation</span>
+                <ul>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <span>Contact</span>
+                <ul>
+                    <li>Mumbai, India</li>
+                    <li>info@anantagrawalarchitects.in</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 Anant Agrawal Architects. All rights reserved.</p>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-black transition">Designed by Gurvendra</a> 
+                
+            </div>
+        </div>
+    </div>
+</footer>
+
+  <script>
+    // --- 1. MENU LOGIC ---
+    const trigger = document.getElementById('menu-trigger');
+    const closeBtn = document.getElementById('menu-close');
+    const menu = document.getElementById('fs-menu');
+    const links = document.querySelectorAll('.menu-link');
+
+    if(trigger && closeBtn && menu){
+        trigger.addEventListener('click', () => {
+            menu.classList.add('menu-open');
+            links.forEach((link, index) => {
+                setTimeout(() => { link.classList.add('slide-in'); }, 300 + (index * 100));
+            });
+        });
+
+        closeBtn.addEventListener('click', () => {
+            menu.classList.remove('menu-open');
+            links.forEach(link => { link.classList.remove('slide-in'); });
+        });
+    }
+
+    // --- 2. SCROLL ANIMATIONS (Fade Up) ---
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animate-fade-up').forEach(section => {
+      observer.observe(section);
+    });
+
+    // --- 3. NAVBAR HIDE ON SCROLL LOGIC ---
+    let lastScrollTop = 0;
+    const navbar = document.getElementById('main-nav');
+
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop < 0) return;
+
+        if (scrollTop > lastScrollTop) {
+            navbar.classList.add('nav-hidden');
+        } else {
+            navbar.classList.remove('nav-hidden');
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+
+    // --- 4. SLIDER SCROLL WHEEL LOGIC ---
+    const slider = document.querySelector('.slider-container');
+    if(slider){
+        slider.addEventListener('wheel', (evt) => {
+            evt.preventDefault();
+            slider.scrollLeft += evt.deltaY;
+        });
+    }
+  </script>
+
+</body>
+</html>
