@@ -254,3 +254,17 @@ closeBtn.addEventListener('click', () => {
         link.classList.remove('slide-in');
     });
 });
+
+window.addEventListener('scroll', () => {
+    const widget = document.querySelector('.social-widget');
+    
+    // Check if we are near the bottom of the page
+    // (Total Height - Viewport Height - Scroll Position) < 100px
+    const distanceToBottom = document.documentElement.scrollHeight - window.innerHeight - window.scrollY;
+
+    if (distanceToBottom < 150) { // Show when 150px from bottom
+        widget.classList.add('visible');
+    } else {
+        widget.classList.remove('visible');
+    }
+});

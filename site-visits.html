@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Visual Diary | Anant Aggarwal Architects</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,54 +12,9 @@
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <style>
-        /* ============================
-           REALISTIC SPIRAL BINDING
-           ============================ */
-
-        /* 1. The Container for the Coil */
-        .my-page::after {
-            content: '';
-            position: absolute;
-            top: 20px;
-            bottom: 20px;
-            z-index: 100;
-            width: 25px; /* Width of the coil */
-            pointer-events: none;
-            
-            /* This creates the metallic coil look using gradients */
-            background: repeating-linear-gradient(
-                -45deg,              /* Angle of the wire */
-                transparent 0px, 
-                transparent 12px,    /* Gap between rings */
-                #333 12px,           /* Dark edge of wire */
-                #888 14px,           /* Lighter middle of wire (shine) */
-                #333 16px,           /* Dark edge of wire */
-                transparent 16px, 
-                transparent 24px     /* Spacing */
-            );
-            
-            /* Adds a shadow behind the coil to make it look 3D (like holes) */
-            filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.5));
-        }
-
-        /* 2. LEFT SIDE PAGES (Even) -> Binding is on the RIGHT edge */
-        .my-page:nth-child(even)::after {
-            right: 0px; 
-            /* A subtle shadow on the paper edge to simulate the punched holes */
-            border-right: 4px dotted rgba(0,0,0,0.2); 
-        }
-
-        /* 3. RIGHT SIDE PAGES (Odd) -> Binding is on the LEFT edge */
-        .my-page:nth-child(odd)::after {
-            left: 0px; 
-            /* A subtle shadow on the paper edge to simulate the punched holes */
-            border-left: 4px dotted rgba(0,0,0,0.2);
-        }
-
-        /* Optional: If you want the cover to have it too, remove the .--hard restrictions. 
-           Currently, this applies to ALL pages including covers for a sketchbook look. */
         :root {
             --bg-color: #f8f9fa;
             --accent: #c9b29a;
@@ -72,189 +27,164 @@
             font-family: var(--font-sans);
             background-color: var(--bg-color);
             color: var(--fg);
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
+            overflow-x: hidden;
             background-image: radial-gradient(#e5e5e5 1px, transparent 1px);
             background-size: 30px 30px;
         }
 
-        /* UTILITY */
-        .hidden { display: none !important; visibility: hidden !important; }
+        .hidden { display: none !important; }
 
-        /* VIEW 1: INDEX */
+        /* --- LANDING LIST --- */
         .index-container {
-            height: 100vh; width: 100vw; display: flex; flex-direction: column;
+            min-height: 100vh; width: 100vw; display: flex; flex-direction: column;
             justify-content: center; align-items: center; z-index: 10;
-            position: absolute; top: 0; left: 0; background-color: var(--bg-color);
+            padding: 100px 20px 40px;
         }
         .index-header {
             font-family: var(--font-serif); font-size: 1rem; letter-spacing: 0.3em;
-            text-transform: uppercase; color: #888; margin-bottom: 3rem;
+            text-transform: uppercase; color: #888; margin-bottom: 2rem;
             border-bottom: 1px solid #ddd; padding-bottom: 1rem;
         }
         .diary-list { list-style: none; padding: 0; text-align: center; }
         .diary-item { margin-bottom: 1.5rem; cursor: pointer; transition: all 0.4s ease; }
+        
         .diary-link {
-            font-family: var(--font-serif); font-size: 4rem; color: #222;
-            text-decoration: none; line-height: 1; position: relative; display: inline-block;
+            font-family: var(--font-serif); font-size: 2.5rem; color: #222;
+            text-decoration: none; line-height: 1.1; position: relative; display: inline-block;
         }
         .diary-num {
-            font-family: var(--font-sans); font-size: 1rem; color: var(--accent);
-            position: absolute; top: 0; left: -30px; font-weight: 600;
-            opacity: 0; transform: translateX(10px); transition: all 0.3s ease;
+            font-family: var(--font-sans); font-size: 0.8rem; color: var(--accent);
+            font-weight: 600; display: block; margin-bottom: 5px;
         }
-        .diary-item:hover .diary-link { color: var(--accent); transform: scale(1.05); font-style: italic; }
-        .diary-item:hover .diary-num { opacity: 1; transform: translateX(0); }
 
-        /* VIEW 2: BOOK STAGE */
+        @media(min-width:768px){ 
+            .diary-link { font-size: 4rem; line-height: 1; } 
+            .diary-item { margin-bottom: 2rem; }
+            .diary-num { position: absolute; top: 5px; left: -30px; margin-bottom: 0; opacity: 0; transform: translateX(10px); transition: all 0.3s ease; }
+            .diary-item:hover .diary-link { color: var(--accent); transform: scale(1.05); font-style: italic; }
+            .diary-item:hover .diary-num { opacity: 1; transform: translateX(0); }
+        }
+
+        /* --- BOOK STAGE --- */
         .book-stage {
             height: 100vh; width: 100vw; display: flex; flex-direction: column;
             justify-content: center; align-items: center; perspective: 2500px;
-            position: absolute; top: 0; left: 0; z-index: 20;
-        }
-        .book-transform-wrapper {
-            position: relative; transform-style: preserve-3d;
-            transform: rotateX(10deg) translateY(-20px);
-            width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;
+            position: fixed; top: 0; left: 0; z-index: 20; background: #fff;
         }
         
-        /* SIZE: SMALL FLIPBOOK */
-        #flipbook { display: block; width: 400px; height: 600px; }
+        .book-transform-wrapper {
+            position: relative; transform-style: preserve-3d;
+            transform: rotateX(0deg); 
+            width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;
+        }
+        @media(min-width:768px){
+            .book-transform-wrapper { transform: rotateX(10deg) translateY(-20px); }
+        }
 
-        /* CLOSE BUTTON */
+        /* --- UI CONTROLS --- */
         #global-exit-btn {
-            position: fixed; top: 30px; right: 40px; z-index: 9999;
-            background: #fff; padding: 10px 20px; border-radius: 30px;
+            position: fixed; top: 20px; right: 20px; z-index: 9999;
+            background: #fff; padding: 8px 16px; border-radius: 30px;
             border: 1px solid #ddd; cursor: pointer;
             font-family: var(--font-sans); text-transform: uppercase;
-            letter-spacing: 0.1em; font-size: 0.8rem; color: #222;
-            display: flex; align-items: center; gap: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: all 0.3s;
+            letter-spacing: 0.1em; font-size: 0.7rem; color: #222;
+            display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        #global-exit-btn:hover { background: #f0f0f0; transform: translateY(-2px); }
 
-        /* TOOLBAR */
         .toolbar {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            display: flex; align-items: center; gap: 10px;
-            background: rgba(255, 255, 255, 0.9); padding: 10px 20px;
-            border-radius: 50px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px); z-index: 100;
+            display: flex; align-items: center; gap: 15px;
+            background: rgba(255, 255, 255, 0.95); padding: 8px 20px;
+            border-radius: 50px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px); z-index: 100; border: 1px solid #eee;
         }
-        .tool-btn { background: transparent; border: none; color: #444; font-size: 1.2rem; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s ease; }
-        .tool-btn:disabled { opacity: 0.2; cursor: not-allowed; pointer-events: none; }
+        .tool-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #333; }
+        .tool-btn:disabled { opacity: 0.3; }
 
-        /* PAGES */
-        .my-page { background-color: #fff; overflow: hidden; width: 400px; height: 600px; }
+        /* --- PAGE STYLES --- */
+        .my-page { background-color: #fff; overflow: hidden; position: relative; }
         .my-page.--hard { background-color: #1a1a1a; border: 1px solid #333; }
+        
+        .my-page::after {
+            content: ''; position: absolute; top: 10px; bottom: 10px; width: 15px; z-index: 50;
+            background: repeating-linear-gradient(-45deg, transparent 0, transparent 8px, #333 8px, #888 9px, #333 10px, transparent 10px, transparent 16px);
+            pointer-events: none;
+        }
+        @media(max-width:767px){ .my-page::after { left: 0; border-left: 2px dotted rgba(0,0,0,0.2); width: 12px; } }
+        @media(min-width:768px){
+            .my-page:nth-child(even)::after { right: 0; border-right: 2px dotted rgba(0,0,0,0.2); }
+            .my-page:nth-child(odd)::after { left: 0; border-left: 2px dotted rgba(0,0,0,0.2); }
+        }
+
+        /* --- TEXT ANIMATION STYLES --- */
+        .anim-element {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        /* Delay slightly so it plays AFTER page flip */
+        .active-page .anim-element {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.3s;
+        }
+        /* Specific delays for sequence */
+        .active-page .anim-delay-1 { transition-delay: 0.4s; }
+        .active-page .anim-delay-2 { transition-delay: 0.5s; }
+
+        /* Content */
         .page-image-full { width: 100%; height: 100%; object-fit: cover; }
         .caption-box {
-            position: absolute; bottom: 30px; left: 30px; right: 30px;
-            background: rgba(255,255,255,0.95); padding: 15px;
-            border-left: 3px solid var(--accent); opacity: 0;
-            transform: translateY(10px); transition: all 0.5s ease 0.2s;
+            position: absolute; bottom: 20px; left: 20px; right: 20px;
+            background: rgba(255,255,255,0.95); padding: 10px;
+            border-left: 3px solid var(--accent);
         }
-        .my-page:hover .caption-box { opacity: 1; transform: translateY(0); }
-        .caption-box h3 { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; font-weight:700; }
-        .caption-box p { font-family: var(--font-serif); font-size: 1rem; font-style: italic; color: #555; }
-        .cover-content { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; border: 1px solid rgba(255,255,255,0.2); outline: 1px solid rgba(255,255,255,0.2); outline-offset: -10px; }
-        .cover-title { font-family: var(--font-serif); font-size: 3rem; color: var(--accent); line-height: 0.9; margin-bottom: 1rem; text-align: center; } 
-        .cover-sub { font-family: var(--font-sans); color: #888; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; }
-        .text-page-container { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2.5rem; background-color: #fdfbf7; }
-    /* --- HAMBURGER ICON --- */
-.hamburger-box {
-    width: 30px; 
-    height: 12px;
-    display: flex; 
-    flex-direction: column; 
-    justify-content: space-between;
-    cursor: pointer; 
-    transition: opacity 0.3s;
-}
-.hamburger-box:hover { opacity: 0.7; }
-.h-line { 
-    width: 100%; 
-    height: 1px; 
-    background-color: #F0EBE0; /* Adjust color based on background */
-    transition: all 0.3s ease; 
-}
+        .caption-box h3 { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight:700; margin-bottom: 3px; }
+        .caption-box p { font-family: var(--font-serif); font-size: 0.85rem; font-style: italic; color: #555; line-height: 1.2; }
 
-/* --- SIDE GLASS MENU --- */
-.glass-menu {
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 100%; 
-    max-width: 450px; 
-    background: rgba(10, 10, 10, 0.3); /* Dark Glass Effect */
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    transform: translateX(100%); /* Hidden by default */
-    transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
-    z-index: 150;
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: center;
-    border-left: 1px solid rgba(255,255,255,0.1);
-}
+        .text-page-container { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 1.5rem; background-color: #fdfbf7; }
+        .cover-content { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.2); text-align: center; }
+        .cover-title { font-family: var(--font-serif); font-size: 2.2rem; color: var(--accent); line-height: 1; margin-bottom: 0.5rem; } 
+        @media(min-width:768px){ .cover-title { font-size: 3rem; } }
+        .cover-sub { font-family: var(--font-sans); color: #888; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; }
 
-/* Open State */
-.menu-open { transform: translateX(0); }
-
-/* Menu Link Animation */
-.menu-link {
-    display: block; 
-    transform: translateX(50px); 
-    opacity: 0; 
-    transition: all 0.5s ease;
-}
-.menu-link.slide-in { transform: translateX(0); opacity: 1; }
-
-/* --- NAVBAR HIDE ON SCROLL --- */
-nav { transition: transform 0.4s ease-in-out; }
-.nav-hidden { transform: translateY(-100%); }
+        /* NAVBAR */
+        .hamburger-box { width: 30px; height: 12px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; transition: opacity 0.3s; }
+        .h-line { width: 100%; height: 1px; background-color: #F0EBE0; transition: all 0.3s ease; }
+        .glass-menu { position: fixed; top: 0; right: 0; height: 100vh; width: 100%; max-width: 450px; background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(20px); transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1); z-index: 150; display: flex; flex-direction: column; justify-content: center; align-items: center; border-left: 1px solid rgba(255,255,255,0.1); }
+        .menu-open { transform: translateX(0); }
+        .menu-link { display: block; transform: translateX(50px); opacity: 0; transition: all 0.5s ease; color: white; }
+        .menu-link.slide-in { transform: translateX(0); opacity: 1; }
+        nav { transition: transform 0.4s ease-in-out; }
+        .nav-hidden { transform: translateY(-100%); }
     </style>
 </head>
 
 <body>
+
     <div id="fs-menu" class="glass-menu text-[#F0EBE0] border-l border-white/10">
-    
-    <div class="absolute bottom-10 left-10 text-[100px] opacity-5 font-serif pointer-events-none select-none leading-none">
-        ∞
-    </div>
-
-    <div class="menu-links-container text-left w-full pl-20 flex flex-col gap-8 relative z-10">
-        <div><a href="index.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Home</a></div>
-        <div><a href="about.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">About</a></div>
-        <div><a href="projects.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Projects</a></div>
-        <div><a href="services.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Services</a></div>
-        <div><a href="contact.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Contact</a></div>
-    </div>
-
-    <div id="menu-close" class="absolute top-10 right-10 cursor-pointer text-xs uppercase tracking-widest hover:opacity-70 z-50 flex items-center gap-2">
-        <span>Close</span> <div class="w-4 h-[1px] bg-white"></div>
-    </div>
-</div>
-
-<nav id="main-nav" class="fixed top-0 left-0 w-full px-5 md:px-10 py-6 flex justify-between items-center z-50 mix-blend-difference text-[#F0EBE0]">
-    <div class="text-xl font-bold tracking-widest uppercase cursor-pointer">
-        ANANT AGRAWAL ARCHITECTS
-    </div>
-    
-    <div id="menu-trigger" class="cursor-pointer group p-2">
-        <div class="hamburger-box">
-            <div class="h-line group-hover:bg-gray-400"></div>
-            <div class="h-line group-hover:bg-gray-400"></div>
+        <div class="absolute bottom-10 left-10 text-[100px] opacity-5 font-serif pointer-events-none select-none leading-none">∞</div>
+        <div class="menu-links-container text-left w-full pl-20 flex flex-col gap-8 relative z-10">
+            <div><a href="index.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Home</a></div>
+            <div><a href="about.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">About</a></div>
+            <div><a href="projects.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Projects</a></div>
+            <div><a href="services.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Services</a></div>
+            <div><a href="contact.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Contact</a></div>
         </div>
+        <div id="menu-close" class="absolute top-10 right-10 cursor-pointer text-xs uppercase tracking-widest hover:opacity-70 z-50 flex items-center gap-2"><span>Close</span> <div class="w-4 h-[1px] bg-white"></div></div>
     </div>
-</nav>
+
+    <nav id="main-nav" class="fixed top-0 left-0 w-full px-5 md:px-10 py-6 flex justify-between items-center z-50 mix-blend-difference text-[#F0EBE0]">
+        <div class="text-xl font-bold tracking-widest uppercase cursor-pointer">ANANT AGRAWAL ARCHITECTS</div>
+        <div id="menu-trigger" class="cursor-pointer group p-2">
+            <div class="hamburger-box"><div class="h-line group-hover:bg-gray-400"></div><div class="h-line group-hover:bg-gray-400"></div></div>
+        </div>
+    </nav>
 
     <section id="landing-view" class="index-container">
-        <div class="index-header">Anant Aggarwal Architects</div>
-        <div style="font-family: var(--font-serif); font-size: 2rem; margin-bottom: 2rem; font-style: italic;">Select a Visual Diary</div>
+        
+        <div style="font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 2rem; font-style: italic;">Visual Diaries</div>
         <ul class="diary-list">
             <li class="diary-item" onclick="openDiary(0)"><div class="diary-link"><span class="diary-num">01</span>London Diary</div></li>
             <li class="diary-item" onclick="openDiary(1)"><div class="diary-link"><span class="diary-num">02</span>Cardiff Diary</div></li>
@@ -264,7 +194,7 @@ nav { transition: transform 0.4s ease-in-out; }
     </section>
 
     <button id="global-exit-btn" class="hidden" onclick="closeDiary()">
-        Close Diary <i class="ph ph-x" style="font-size: 1.2rem;"></i>
+        Close <i class="ph ph-x" style="font-size: 1rem;"></i>
     </button>
 
     <section id="book-view" class="book-stage hidden">
@@ -273,7 +203,7 @@ nav { transition: transform 0.4s ease-in-out; }
         </div>
         <div class="toolbar">
             <button id="btnPrev" class="tool-btn"><i class="ph ph-caret-left"></i></button>
-            <div style="font-size:0.8rem; color:#888; font-weight:600; padding:0 15px;" id="pageCount">Cover</div>
+            <div style="font-size:0.7rem; color:#555; font-weight:600; padding:0 10px;" id="pageCount">Cover</div>
             <button id="btnNext" class="tool-btn"><i class="ph ph-caret-right"></i></button>
         </div>
     </section>
@@ -281,13 +211,13 @@ nav { transition: transform 0.4s ease-in-out; }
     <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
 
     <script>
-        // --- DATA ---
+        // --- DATA (Revised to 30-50 words per intro) ---
         const diaries = [
             {
                 id: "01", 
                 city: "London", 
                 // YOUR INTRO TEXT
-                intro: "During my Sustainable Mega Buildings studies at Cardiff University’s Welsh School of Architecture, I participated in an advanced urban climate walk through London’s high-rise district, guided by Dr. Julie (Ann) Futcher. This experience, alongside fellow students and Professors Tania Sharmin and Eshrar Latif, deepened my expertise in analyzing how tall buildings influence complex urban microclimates. It enhanced my ability to design high-rise projects that thoughtfully respond to their environmental context, optimizing both performance and occupant comfort. This hands-on exposure underscores my commitment to delivering sophisticated, climate-aware architecture informed by cutting-edge research and real-world observation.", 
+                intro: "During my Sustainable Mega Buildings studies at Cardiff University’s Welsh School of Architecture, I joined Dr. Julie (Ann) Futcher on an advanced urban climate walk in London’s high-rise district, with Professors Tania Sharmin and Eshrar Latif. This honed my skills in analyzing tall buildings' impact on urban microclimates, enabling climate-responsive high-rise designs that optimize performance and comfort.", 
                 
                 images: [
                     { 
@@ -330,7 +260,7 @@ nav { transition: transform 0.4s ease-in-out; }
             {
                 id: "02", 
                 city: "Cardiff", 
-                intro: "During my MSc Architectural Science studies at Cardiff University’s Welsh School of Architecture, I conducted an in-depth investigation of the historic Pierhead Building in Cardiff Bay, a Grade-I-listed structure built in 1897 now serving as a multipurpose visitor center. Under the guidance of Matthew Jones, sustainability manager, and support from Dr. Simon Lannon and Dr. Vicki Stevenson, I focused on the Futures Gallery exhibition space. This project involved post-occupancy monitoring and strategic energy optimization to enhance environmental performance and occupant comfort. It demonstrated my capability to blend heritage preservation with modern sustainability goals through rigorous analysis and practical interventions.", 
+                intro: "During my MSc Architectural Science studies at Cardiff University’s Welsh School of Architecture, I investigated the Grade-I-listed Pierhead Building (1897) in Cardiff Bay, guided by Matthew Jones, Dr. Simon Lannon, and Dr. Vicki Stevenson. Focusing on the Futures Gallery, I conducted post-occupancy monitoring and energy optimization, blending heritage preservation with sustainability for enhanced performance and comfort.", 
                 images: [
                     { 
                         t: "Victorian Gothic Heritage", 
@@ -362,7 +292,7 @@ nav { transition: transform 0.4s ease-in-out; }
             {
                 id: "03", 
                 city: "Paris", 
-                intro: "During an inspiring Paris study trip with Cardiff University’s Environmental Design of Buildings and Sustainable Megabuildings MSc cohorts, I engaged deeply with pioneering sustainable architecture practices. Led by Prof. Emmanouil Perisoglou and Prof. Amalia Banteli, we explored Zefco’s innovative low-carbon design philosophy, examining projects that seamlessly integrate beauty and sustainability. This hands-on experience honed my expertise in environmentally responsive architecture, connecting theoretical knowledge to real-world applications. The collaboration with experts including Sarah O'Dwyer, Vicki Stevenson, Florian Dupont, and Sabine Gröger enriched my vision of future-proof, green design solutions. This journey underscored my commitment to advancing sustainable, high-performance architecture.", 
+                intro: "During a Paris study trip with Cardiff University’s Environmental Design and Sustainable Megabuildings MSc cohorts, led by Profs. Emmanouil Perisoglou and Amalia Banteli, I explored Zefco’s low-carbon designs integrating beauty and sustainability. Collaborating with experts like Sarah O'Dwyer, Vicki Stevenson, and others, I honed skills in environmentally responsive architecture for future-proof solutions.", 
                 images: [
                     { 
                         t: "The Urban Void", 
@@ -439,7 +369,7 @@ nav { transition: transform 0.4s ease-in-out; }
         {
                 id: "04", 
                 city: "Zefco", 
-                intro: "During an inspiring Paris study trip with Cardiff University’s Environmental Design of Buildings and Sustainable Megabuildings MSc cohorts, I engaged deeply with pioneering sustainable architecture practices. Led by Prof. Emmanouil Perisoglou and Prof. Amalia Banteli, we explored Zefco’s innovative low-carbon design philosophy, examining projects that seamlessly integrate beauty and sustainability. This hands-on experience honed my expertise in environmentally responsive architecture, connecting theoretical knowledge to real-world applications. The collaboration with experts including Sarah O'Dwyer, Vicki Stevenson, Florian Dupont, and Sabine Gröger enriched my vision of future-proof, green design solutions. This journey underscored my commitment to advancing sustainable, high-performance architecture.", 
+                intro: "During a Paris study trip with Cardiff University’s Environmental Design and Sustainable Megabuildings MSc cohorts, led by Profs. Emmanouil Perisoglou and Amalia Banteli, I explored Zefco’s low-carbon designs integrating beauty and sustainability. Collaborating with experts like Sarah O'Dwyer, Vicki Stevenson, and others, I honed skills in environmentally responsive architecture for future-proof solutions.", 
                 images: [
                     { 
                         t: "Lifecycle Assessment", 
@@ -448,7 +378,7 @@ nav { transition: transform 0.4s ease-in-out; }
                     },
                     { 
                         t: "Circular Economy", 
-                        img: "zefco/Screenshot_20251211_221442_LinkedIn.jpg", // Supply chain slide
+                        img: "zefco/Screenshot_20251211_222949_LinkedIn.jpg", // Supply chain slide
                         desc: "Mapping the construction value chain to identify circular economy opportunities. The workshop highlighted the importance of 'urban mining' and material reuse, challenging the traditional linear 'take-make-waste' model in favor of a regenerative architectural ecosystem." 
                     },
                     { 
@@ -481,124 +411,133 @@ nav { transition: transform 0.4s ease-in-out; }
             const data = diaries[index];
             const bookEl = document.getElementById('flipbook');
             
+            // Switch Views
             document.getElementById('landing-view').classList.add('hidden');
             document.getElementById('book-view').classList.remove('hidden');
             document.getElementById('global-exit-btn').classList.remove('hidden');
+            document.getElementById('main-nav').classList.add('hidden');
 
-            // --- COVER & INTRO PAGE ---
+            // --- BUILD HTML PAGES ---
+            // Note: Added 'anim-element' class to text we want to animate
             let html = `
-                <div class="my-page --hard front-cover"><div class="cover-content"><div class="cover-sub">DIARY ${data.id}</div><div class="cover-title">${data.city}<br>CHRONICLES</div><div style="margin-top:2rem; font-size:2rem; color:#c9b29a;">∞</div></div></div>
+                <div class="my-page --hard"><div class="cover-content"><div class="cover-sub">DIARY ${data.id}</div><div class="cover-title">${data.city}</div></div></div>
                 <div class="my-page" style="background:#222;"></div>
                 <div class="my-page">
                     <div class="text-page-container">
-                        <div style="font-family:serif; font-size:2.5rem; margin-bottom:1rem; border-bottom: 1px solid #c9b29a; padding-bottom:0.5rem;">${data.city}</div>
-                        <p style="font-style:italic; color:#444; font-size: 0.85rem; line-height: 1.6; text-align: justify;">${data.intro}</p>
+                        <div class="anim-element" style="font-size:1.5rem;border-bottom:1px solid #c9b29a;margin-bottom:1rem;">${data.city}</div>
+                        <p class="anim-element anim-delay-1" style="font-size:0.9rem;font-style:italic;color:#666;line-height:1.6;">${data.intro}</p>
                     </div>
                 </div>
             `;
             
-            // --- IMAGE PAGES WITH DESCRIPTIONS ---
             data.images.forEach(img => {
-                // Check if description exists, otherwise default
-                const descText = img.desc ? img.desc : `${data.city} Architectural Study`;
-                
                 html += `
                 <div class="my-page">
                     <img src="${img.img}" class="page-image-full">
-                    <div class="caption-box">
+                    <div class="caption-box anim-element">
                         <h3>${img.t}</h3>
-                        <p style="font-size: 0.8rem; line-height: 1.4;">${descText}</p>
+                        <p>${img.desc}</p>
                     </div>
                 </div>`;
             });
             
-            html += `<div class="my-page --hard back-cover"><div class="cover-content"><div class="cover-sub">End of ${data.city}</div></div></div>`;
-            
+            html += `<div class="my-page --hard"><div class="cover-content"><div class="cover-sub">End</div></div></div>`;
             bookEl.innerHTML = html;
 
+            // --- MOBILE RESPONSIVE LOGIC ---
+            const isMobile = window.innerWidth < 768;
+            
+            const settings = {
+                width: isMobile ? 300 : 400,
+                height: isMobile ? 450 : 600,
+                size: "fixed",
+                minWidth: 200, maxWidth: 800, minHeight: 300, maxHeight: 900,
+                showCover: true, 
+                maxShadowOpacity: 0.5,
+                usePortrait: isMobile, // Single Page on Mobile
+                startPage: 0
+            };
+
+            // Init Book
             setTimeout(() => {
                 if (pageFlip) { try { pageFlip.destroy(); } catch(e){} }
                 
-                pageFlip = new St.PageFlip(bookEl, {
-                    width: 400, height: 600, 
-                    size: "fixed",
-                    minWidth: 300, maxWidth: 600, 
-                    minHeight: 400, maxHeight: 800,
-                    showCover: true, maxShadowOpacity: 0.5, usePortrait: false
-                });
-
+                pageFlip = new St.PageFlip(bookEl, settings);
                 pageFlip.loadFromHTML(document.querySelectorAll('.my-page'));
 
-                const updateUI = () => {
-                    if (!pageFlip) return;
-                    const current = pageFlip.getCurrentPageIndex();
-                    const total = pageFlip.getPageCount();
+                // ANIMATION TRIGGER
+                // We listen for the 'flip' event to toggle the 'active-page' class
+                const triggerAnimation = () => {
+                    const pages = document.querySelectorAll('.my-page');
+                    // Reset all
+                    pages.forEach(p => p.classList.remove('active-page'));
                     
-                    document.getElementById('pageCount').innerText = (current === 0) ? "Cover" : `Page ${current}`;
-                    document.getElementById('btnPrev').disabled = (current === 0);
-                    document.getElementById('btnNext').disabled = (current >= total - 1);
+                    // Get current visible indices
+                    // Note: pageFlip.getCurrentPageIndex() returns the index of the left page (or single page)
+                    const currentIdx = pageFlip.getCurrentPageIndex();
+                    
+                    // Activate current page (and next if double view)
+                    if (pages[currentIdx]) pages[currentIdx].classList.add('active-page');
+                    
+                    // If desktop mode (double page), activate neighbor too
+                    if (!isMobile && pages[currentIdx + 1]) {
+                        pages[currentIdx + 1].classList.add('active-page');
+                    }
+                };
+
+                // Controls Logic
+                const updateUI = () => {
+                    const current = pageFlip.getCurrentPageIndex();
+                    document.getElementById('pageCount').innerText = (current===0)?"Cover":`Page ${current}`;
+                    document.getElementById('btnPrev').disabled = (current===0);
+                    triggerAnimation(); // Trigger anim on flip
                 };
 
                 pageFlip.on('flip', updateUI);
+                
+                // Trigger initial animation
+                setTimeout(triggerAnimation, 500);
                 updateUI();
 
                 document.getElementById('btnPrev').onclick = () => pageFlip.flipPrev();
                 document.getElementById('btnNext').onclick = () => pageFlip.flipNext();
-            }, 300);
+            }, 100);
         }
 
         function closeDiary() {
             location.reload();
         }
+
         // --- MENU LOGIC ---
-const trigger = document.getElementById('menu-trigger');
-const closeBtn = document.getElementById('menu-close');
-const menu = document.getElementById('fs-menu');
-const links = document.querySelectorAll('.menu-link');
+        const trigger = document.getElementById('menu-trigger');
+        const closeBtn = document.getElementById('menu-close');
+        const menu = document.getElementById('fs-menu');
+        const links = document.querySelectorAll('.menu-link');
 
-if (trigger && closeBtn && menu) {
-    trigger.addEventListener('click', () => {
-        // Open Menu
-        menu.classList.add('menu-open');
-        
-        // Staggered Text Reveal
-        links.forEach((link, index) => {
-            setTimeout(() => { 
-                link.classList.add('slide-in'); 
-            }, 300 + (index * 100));
+        if(trigger){
+            trigger.onclick = () => {
+                menu.classList.add('menu-open');
+                links.forEach((l,i) => setTimeout(() => l.classList.add('slide-in'), 300 + i*100));
+            };
+            closeBtn.onclick = () => {
+                menu.classList.remove('menu-open');
+                links.forEach(l => l.classList.remove('slide-in'));
+            };
+        }
+
+        // --- NAVBAR SCROLL ---
+        let lastScrollTop = 0;
+        const navbar = document.getElementById('main-nav');
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop < 0) return;
+            if (scrollTop > lastScrollTop && scrollTop > 50) {
+                navbar.classList.add('nav-hidden');
+            } else {
+                navbar.classList.remove('nav-hidden');
+            }
+            lastScrollTop = scrollTop;
         });
-    });
-
-    closeBtn.addEventListener('click', () => {
-        // Close Menu
-        menu.classList.remove('menu-open');
-        
-        // Reset Text Positions
-        links.forEach(link => { 
-            link.classList.remove('slide-in'); 
-        });
-    });
-}
-
-// --- NAVBAR HIDE ON SCROLL ---
-let lastScrollTop = 0;
-const navbar = document.getElementById('main-nav');
-
-window.addEventListener('scroll', function() {
-    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
-    if (scrollTop < 0) return; // Prevent negative scroll bounce
-
-    if (scrollTop > lastScrollTop && scrollTop > 50) {
-        // Scrolling DOWN -> Hide
-        navbar.classList.add('nav-hidden');
-    } else {
-        // Scrolling UP -> Show
-        navbar.classList.remove('nav-hidden');
-    }
-    
-    lastScrollTop = scrollTop;
-});
     </script>
 </body>
 </html>

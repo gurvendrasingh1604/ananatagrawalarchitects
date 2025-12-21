@@ -226,81 +226,75 @@
     text-transform: uppercase;
 }
 /* ============================
-           FLOATING SOCIAL WIDGET (LEFT CENTER)
-           ============================ */
-        .social-widget {
-            position: fixed;
-            top: 50%;               /* Move to vertical middle */
-            left: 30px;             /* Distance from left edge */
-            transform: translateY(-50%); /* Perfect vertical centering */
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;              /* Slightly increased gap for the side layout */
-            mix-blend-mode: difference;
-            color: #fff; 
-        }
+   FLOATING SOCIAL WIDGET (Horizontal Pill)
+   ============================ */
+.social-widget {
+    position: fixed;
+    bottom: 30px;           /* Anchored to bottom */
+    left: 50%;              /* Centered horizontally */
+    z-index: 1000;
+    
+    display: flex;
+    flex-direction: row;    /* Always Horizontal */
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    
+    /* Visuals (Glass Pill) */
+    background: rgba(20, 20, 20, 0.85); /* Dark background */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 12px 30px;
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    
+    /* Text Color */
+    color: #fff;
+    mix-blend-mode: normal; 
 
-        .social-link {
-            display: flex; 
-            justify-content: center;
-            align-items: center;
-            text-decoration: none;
-            color: #fff; 
-            width: 24px; 
-            height: 24px;
-            transition: transform 0.3s ease, opacity 0.3s;
-            opacity: 0.7;
-        }
+    /* HIDDEN STATE (Initial) */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(30px); /* Pushed down */
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
 
-        /* SVG Specific Styling */
-        .social-link svg {
-            width: 100%;
-            height: 100%;
-            fill: currentColor; 
-        }
+/* VISIBLE STATE (Triggered by JS) */
+.social-widget.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0); /* Slide Up */
+}
 
-        .social-link:hover {
-            opacity: 1;
-            transform: scale(1.2); /* Hover zoom effect */
-        }
+/* Links */
+.social-link {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: rgba(255,255,255,0.7); 
+    transition: all 0.3s ease;
+}
 
-        /* Top Decorative Line */
-        .social-line {
-            width: 1px;
-            height: 60px; /* Longer line looks better on the side */
-            background-color: #fff;
-            opacity: 0.5;
-        }
+.social-link i, 
+.social-link svg {
+    font-size: 1.5rem; /* Icon size */
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
 
-        /* Vertical Label */
-        .social-label {
-            writing-mode: vertical-rl;
-            text-orientation: mixed; /* Letters stand upright */
-            font-family: var(--font-sans);
-            font-size: 0.75rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            opacity: 0.6;
-            margin-top: 10px;
-            /* Optional: Rotate 180 deg if you want text reading bottom-to-top */
-            /* transform: rotate(180deg); */
-        }
+.social-link:hover {
+    color: #fff;
+    transform: scale(1.15);
+}
 
-        /* Mobile Adjustment: Move to bottom-left or hide */
-        @media (max-width: 768px) {
-            .social-widget {
-                top: auto;
-                bottom: 30px;
-                left: 30px;
-                transform: none; /* Remove centering on mobile */
-            }
-            
-            .social-line {
-                height: 30px; /* Shorter line on mobile */
-            }
-        }
+/* Hide Decorative Elements (Lines/Labels don't fit horizontal mode) */
+.social-line, 
+.social-label {
+    display: none;
+}
   </style>
 </head>
 <body>
@@ -506,6 +500,19 @@
             }
             lastScrollTop = scrollTop;
         });
+        window.addEventListener('scroll', () => {
+    const widget = document.querySelector('.social-widget');
+    
+    // Check if we are near the bottom of the page
+    // (Total Height - Viewport Height - Scroll Position) < 100px
+    const distanceToBottom = document.documentElement.scrollHeight - window.innerHeight - window.scrollY;
+
+    if (distanceToBottom < 150) { // Show when 150px from bottom
+        widget.classList.add('visible');
+    } else {
+        widget.classList.remove('visible');
+    }
+});
     </script>
 </body>
 </html>
