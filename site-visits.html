@@ -1,455 +1,604 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Site Visits | Anant Agrawal Architects</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Diary | Anant Aggarwal Architects</title>
 
-  <style>
-    /* --- RESET & VARIABLES --- */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #ffffff; --fg: #1a1a1a; --muted: #e5e5e5; --accent: #c9b29a;
-      --font-serif: 'Cormorant Garamond', Georgia, serif;
-      --font-sans: 'DM Sans', system-ui, sans-serif;
-    }
-    body { font-family: var(--font-sans); background: var(--bg); color: var(--fg); overflow-x: hidden; }
-    
-    /* Typography */
-    .section-title { font-family: var(--font-serif); font-size: 3rem; line-height: 1; font-weight: 300; }
-    .symbol-text { font-size: 2rem; color: var(--accent); opacity: 0.5; }
-    .body-text { color: #666; line-height: 1.6; max-width: 600px; margin: 0 auto; }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 
-    /* --- FLOATING MASONRY GALLERY --- */
-    .gallery-wrapper {
-        padding: 4rem 1.5rem 8rem;
-        max-width: 1600px;
-        margin: 0 auto;
-    }
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    .gallery-columns {
-        column-count: 1;
-        column-gap: 2rem;
-    }
-    @media(min-width: 640px) { .gallery-columns { column-count: 2; } }
-    @media(min-width: 1024px) { .gallery-columns { column-count: 3; } }
-    @media(min-width: 1400px) { .gallery-columns { column-count: 4; } }
+    <style>
+        /* ============================
+           REALISTIC SPIRAL BINDING
+           ============================ */
 
-    .gallery-card {
-        break-inside: avoid;
-        margin-bottom: 2rem;
-        position: relative;
-        border-radius: 4px;
-        overflow: hidden;
-        transform: translateY(0);
-        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    }
-
-    /* Floating Hover Effect */
-    .gallery-card:hover {
-        transform: translateY(-10px) scale(1.02);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        z-index: 10;
-    }
-
-    .gallery-card img {
-        width: 100%;
-        height: auto;
-        display: block;
-        filter: grayscale(100%);
-        transition: filter 0.5s ease;
-    }
-    .gallery-card:hover img { filter: grayscale(0%); }
-
-    /* Caption Overlay */
-    .card-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
-        opacity: 0;
-        transition: opacity 0.3s;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 1.5rem;
-    }
-    .gallery-card:hover .card-overlay { opacity: 1; }
-
-    .card-title { color: white; font-family: var(--font-serif); font-size: 1.25rem; transform: translateY(10px); transition: transform 0.3s; }
-    .card-loc { color: #ccc; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; transform: translateY(10px); transition: transform 0.3s delay 0.05s; }
-    
-    .gallery-card:hover .card-title, 
-    .gallery-card:hover .card-loc { transform: translateY(0); }
-
-    /* --- OFFSET DESIGN (Staggered look) --- */
-    .gallery-card:nth-child(odd) { margin-top: 0; }
-    .gallery-card:nth-child(even) { margin-top: 2rem; }
-
-    /* --- MENU & NAVBAR --- */
-    .hamburger-box { width: 30px; height: 12px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
-    .h-line { width: 100%; height: 1px; background: #000; transition: 0.3s; }
-    .glass-menu { position: fixed; top: 0; right: 0; height: 100vh; width: 100%; max-width: 450px; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); transform: translateX(100%); transition: 0.6s cubic-bezier(0.77,0,0.175,1); z-index: 150; display: flex; flex-direction: column; justify-content: center; align-items: center; border-left: 1px solid rgba(0,0,0,0.1); }
-    .menu-open { transform: translateX(0); }
-    .menu-link { display: block; transform: translateX(50px); opacity: 0; transition: 0.5s ease; color: black; font-size: 2.5rem; font-family: var(--font-serif); margin-bottom: 2rem; }
-    .menu-link.slide-in { transform: translateX(0); opacity: 1; }
-
-    /* Animation Classes */
-    .fade-up-entry { opacity: 0; transform: translateY(30px); }
-
-    /* --- FOOTER STYLES --- */
-.footer { 
-    background: #ffffff; 
-    padding: 4rem 1.5rem; 
-    border-top: 1px solid rgba(0,0,0,0.1); 
-    color: #1a1a1a;
-}
-@media (min-width: 768px) { .footer { padding: 6rem 3rem; } }
-
-.footer-content { max-width: 1280px; margin: 0 auto; }
-
-.footer-top { 
-    display: grid; 
-    gap: 3rem; 
-    margin-bottom: 4rem; 
-}
-@media (min-width: 768px) { .footer-top { grid-template-columns: 2fr 1fr 1fr; } }
-
-.footer-brand .logo { 
-    font-family: 'Cormorant Garamond', serif; /* Or 'Playfair Display' if used elsewhere */
-    font-size: 1.875rem; 
-    color: #1a1a1a; 
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: none;
-}
-
-.footer-nav span, .footer-contact span {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: #999;
-    display: block;
-    margin-bottom: 1rem;
-    font-family: 'DM Sans', sans-serif; /* Or 'Manrope' */
-    font-weight: 600;
-}
-
-.footer-nav ul, .footer-contact ul {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    list-style: none;
-    padding: 0;
-}
-
-.footer-nav a, .footer-contact li {
-    color: #666;
-    transition: color 0.3s;
-    font-family: 'DM Sans', sans-serif; /* Or 'Manrope' */
-    font-size: 0.9rem;
-    text-decoration: none;
-}
-.footer-nav a:hover { color: #000; }
-
-.footer-bottom { 
-    border-top: 1px solid rgba(0,0,0,0.1); 
-    padding-top: 2rem; 
-    display: flex; 
-    flex-direction: column;
-    gap: 1rem;
-    justify-content: space-between; 
-    color: #999; 
-    font-size: 0.8rem;
-    font-family: 'DM Sans', sans-serif; /* Or 'Manrope' */
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
-@media (min-width: 768px) { .footer-bottom { flex-direction: row; } }
-
-.footer-bottom a { color: inherit; text-decoration: none; transition: color 0.3s; }
-.footer-bottom a:hover { color: #000; }
-</style>
-</head>
-<body>
-
-  <div id="fs-menu" class="glass-menu">
-      <div class="menu-links-container w-full pl-20 flex flex-col">
-          <a href="index.html" class="menu-link">Home</a>
-          <a href="about.html" class="menu-link">About</a>
-          <a href="projects.html" class="menu-link">Projects</a>
-          <a href="services.html" class="menu-link">Services</a>
-          <a href="contact.html" class="menu-link">Contact</a>
-      </div>
-      <div id="menu-close" class="absolute top-10 right-10 cursor-pointer text-black text-xs uppercase tracking-widest">Close</div>
-  </div>
-
-  <nav class="fixed top-0 left-0 w-full px-5 md:px-10 py-6 flex justify-between items-center z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-      <div class="text-xl font-bold tracking-widest uppercase cursor-pointer text-black">ANANT AGRAWAL ARCHITECTS</div>
-      <div id="menu-trigger" class="cursor-pointer p-2">
-          <div class="hamburger-box"><div class="h-line bg-black"></div><div class="h-line bg-black"></div></div>
-      </div>
-  </nav>
-
-  <header class="pt-40 pb-20 px-6 text-center">
-      <div class="symbol-text animate-fade">∞</div>
-      <h1 class="section-title mt-4 animate-fade">Visual Diary</h1>
-      <p class="body-text mt-4 animate-fade">
-          A curated collection of site visits, material studies, and architectural explorations across London, Paris, and Cardiff.
-      </p>
-  </header>
-
-  <div class="gallery-wrapper">
-      <div class="gallery-columns" id="gallery-grid">
-          
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/1/WhatsApp Image 2025-12-11 at 10.09.53 PM.jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Facade Geometry</h3>
-                  <p class="card-loc">London, UK</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/1/WhatsApp Image 2025-12-11 at 10.09.54 PM (1).jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Thermal Analysis</h3>
-                  <p class="card-loc">Site Data</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/1/WhatsApp Image 2025-12-11 at 10.09.54 PM (2).jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Living Walls</h3>
-                  <p class="card-loc">Paris, France</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/1/WhatsApp Image 2025-12-11 at 10.09.54 PM (3).jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Design Cohort</h3>
-                  <p class="card-loc">Field Study</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/1/WhatsApp Image 2025-12-11 at 10.09.54 PM.jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Heritage Detail</h3>
-                  <p class="card-loc">Cardiff Bay</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/1/WhatsApp Image 2025-12-11 at 10.09.55 PM (1).jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">High-Tech Systems</h3>
-                  <p class="card-loc">Lloyd's Building</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/1/WhatsApp Image 2025-12-11 at 10.09.55 PM.jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Urban Density</h3>
-                  <p class="card-loc">City of London</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/2/WhatsApp Image 2025-12-11 at 10.12.43 PM (1).jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Research Findings</h3>
-                  <p class="card-loc">Academic Review</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/2/WhatsApp Image 2025-12-11 at 10.12.43 PM.jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Pierhead Building</h3>
-                  <p class="card-loc">Cardiff</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/2/WhatsApp Image 2025-12-11 at 10.12.44 PM (1).jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">River Thames</h3>
-                  <p class="card-loc">Context Study</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/2/WhatsApp Image 2025-12-11 at 10.12.44 PM (1).jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Workshop Space</h3>
-                  <p class="card-loc">Interior Analysis</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/2/WhatsApp Image 2025-12-11 at 10.12.44 PM.jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Public Realm</h3>
-                  <p class="card-loc">London Streets</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/3/WhatsApp Image 2025-12-11 at 10.17.36 PM.jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Cultural Study</h3>
-                  <p class="card-loc">Art Museum</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/3/WhatsApp Image 2025-12-11 at 10.17.37 PM (1).jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Site Survey</h3>
-                  <p class="card-loc">London View</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/3/WhatsApp Image 2025-12-11 at 10.17.37 PM.jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Raw Concrete</h3>
-                  <p class="card-loc">Materiality</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/4/WhatsApp Image 2025-12-11 at 10.25.31 PM.jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Structural Steel</h3>
-                  <p class="card-loc">Detail</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/4/WhatsApp Image 2025-12-11 at 10.25.32 PM (1).jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Timber Texture</h3>
-                  <p class="card-loc">Materiality</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/4/WhatsApp Image 2025-12-11 at 10.25.32 PM.jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Glass Facade</h3>
-                  <p class="card-loc">Modernism</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/4/WhatsApp Image 2025-12-11 at 10.25.33 PM (1).jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Process Sketch</h3>
-                  <p class="card-loc">Studio</p>
-              </div>
-          </div>
-
-          <div class="gallery-card">
-              <img src="website-20251202T201341Z-1-001/website/4/WhatsApp Image 2025-12-11 at 10.25.33 PM (3).jpeg" loading="lazy">
-              <div class="card-overlay">
-                  <h3 class="card-title">Light Study</h3>
-                  <p class="card-loc">Atmosphere</p>
-              </div>
-          </div>
-
-      </div>
-  </div>
-
-  <footer class="footer">
-    <div class="footer-content">
-        <div class="footer-top">
+        /* 1. The Container for the Coil */
+        .my-page::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            bottom: 20px;
+            z-index: 100;
+            width: 25px; /* Width of the coil */
+            pointer-events: none;
             
-            <div class="footer-brand">
-                <a href="#" class="logo">ANANT AGRAWAL ARCHITECTS</a>
-                <p style="margin-top: 1rem; color: #666; font-family: 'Manrope', sans-serif; font-size: 0.9rem; max-width: 24rem;">
-                    Redefining architecture through the harmonious blend of innovation, 
-                    sustainability, and tradition.
-                </p>
-            </div>
+            /* This creates the metallic coil look using gradients */
+            background: repeating-linear-gradient(
+                -45deg,              /* Angle of the wire */
+                transparent 0px, 
+                transparent 12px,    /* Gap between rings */
+                #333 12px,           /* Dark edge of wire */
+                #888 14px,           /* Lighter middle of wire (shine) */
+                #333 16px,           /* Dark edge of wire */
+                transparent 16px, 
+                transparent 24px     /* Spacing */
+            );
+            
+            /* Adds a shadow behind the coil to make it look 3D (like holes) */
+            filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.5));
+        }
 
-            <div class="footer-nav">
-                <span>Navigation</span>
-                <ul>
-                    <li><a href="projects.html">Projects</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </div>
+        /* 2. LEFT SIDE PAGES (Even) -> Binding is on the RIGHT edge */
+        .my-page:nth-child(even)::after {
+            right: 0px; 
+            /* A subtle shadow on the paper edge to simulate the punched holes */
+            border-right: 4px dotted rgba(0,0,0,0.2); 
+        }
 
-            <div class="footer-contact">
-                <span>Contact</span>
-                <ul>
-                    <li>Mumbai, India</li>
-                    <li>info@anantagrawalarchitects.in</li>
-                </ul>
-            </div>
-        </div>
+        /* 3. RIGHT SIDE PAGES (Odd) -> Binding is on the LEFT edge */
+        .my-page:nth-child(odd)::after {
+            left: 0px; 
+            /* A subtle shadow on the paper edge to simulate the punched holes */
+            border-left: 4px dotted rgba(0,0,0,0.2);
+        }
 
-        <div class="footer-bottom">
-            <p>© 2025 Anant Agrawal Architects. All rights reserved.</p>
-            <div class="flex gap-4">
-                <a href="#" class="hover:text-black transition">Designed by Gurvendra</a> 
-                
-            </div>
+        /* Optional: If you want the cover to have it too, remove the .--hard restrictions. 
+           Currently, this applies to ALL pages including covers for a sketchbook look. */
+        :root {
+            --bg-color: #f8f9fa;
+            --accent: #c9b29a;
+            --fg: #222;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'DM Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--fg);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            background-image: radial-gradient(#e5e5e5 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* UTILITY */
+        .hidden { display: none !important; visibility: hidden !important; }
+
+        /* VIEW 1: INDEX */
+        .index-container {
+            height: 100vh; width: 100vw; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 10;
+            position: absolute; top: 0; left: 0; background-color: var(--bg-color);
+        }
+        .index-header {
+            font-family: var(--font-serif); font-size: 1rem; letter-spacing: 0.3em;
+            text-transform: uppercase; color: #888; margin-bottom: 3rem;
+            border-bottom: 1px solid #ddd; padding-bottom: 1rem;
+        }
+        .diary-list { list-style: none; padding: 0; text-align: center; }
+        .diary-item { margin-bottom: 1.5rem; cursor: pointer; transition: all 0.4s ease; }
+        .diary-link {
+            font-family: var(--font-serif); font-size: 4rem; color: #222;
+            text-decoration: none; line-height: 1; position: relative; display: inline-block;
+        }
+        .diary-num {
+            font-family: var(--font-sans); font-size: 1rem; color: var(--accent);
+            position: absolute; top: 0; left: -30px; font-weight: 600;
+            opacity: 0; transform: translateX(10px); transition: all 0.3s ease;
+        }
+        .diary-item:hover .diary-link { color: var(--accent); transform: scale(1.05); font-style: italic; }
+        .diary-item:hover .diary-num { opacity: 1; transform: translateX(0); }
+
+        /* VIEW 2: BOOK STAGE */
+        .book-stage {
+            height: 100vh; width: 100vw; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; perspective: 2500px;
+            position: absolute; top: 0; left: 0; z-index: 20;
+        }
+        .book-transform-wrapper {
+            position: relative; transform-style: preserve-3d;
+            transform: rotateX(10deg) translateY(-20px);
+            width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;
+        }
+        
+        /* SIZE: SMALL FLIPBOOK */
+        #flipbook { display: block; width: 400px; height: 600px; }
+
+        /* CLOSE BUTTON */
+        #global-exit-btn {
+            position: fixed; top: 30px; right: 40px; z-index: 9999;
+            background: #fff; padding: 10px 20px; border-radius: 30px;
+            border: 1px solid #ddd; cursor: pointer;
+            font-family: var(--font-sans); text-transform: uppercase;
+            letter-spacing: 0.1em; font-size: 0.8rem; color: #222;
+            display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: all 0.3s;
+        }
+        #global-exit-btn:hover { background: #f0f0f0; transform: translateY(-2px); }
+
+        /* TOOLBAR */
+        .toolbar {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(255, 255, 255, 0.9); padding: 10px 20px;
+            border-radius: 50px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px); z-index: 100;
+        }
+        .tool-btn { background: transparent; border: none; color: #444; font-size: 1.2rem; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s ease; }
+        .tool-btn:disabled { opacity: 0.2; cursor: not-allowed; pointer-events: none; }
+
+        /* PAGES */
+        .my-page { background-color: #fff; overflow: hidden; width: 400px; height: 600px; }
+        .my-page.--hard { background-color: #1a1a1a; border: 1px solid #333; }
+        .page-image-full { width: 100%; height: 100%; object-fit: cover; }
+        .caption-box {
+            position: absolute; bottom: 30px; left: 30px; right: 30px;
+            background: rgba(255,255,255,0.95); padding: 15px;
+            border-left: 3px solid var(--accent); opacity: 0;
+            transform: translateY(10px); transition: all 0.5s ease 0.2s;
+        }
+        .my-page:hover .caption-box { opacity: 1; transform: translateY(0); }
+        .caption-box h3 { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; font-weight:700; }
+        .caption-box p { font-family: var(--font-serif); font-size: 1rem; font-style: italic; color: #555; }
+        .cover-content { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; border: 1px solid rgba(255,255,255,0.2); outline: 1px solid rgba(255,255,255,0.2); outline-offset: -10px; }
+        .cover-title { font-family: var(--font-serif); font-size: 3rem; color: var(--accent); line-height: 0.9; margin-bottom: 1rem; text-align: center; } 
+        .cover-sub { font-family: var(--font-sans); color: #888; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; }
+        .text-page-container { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2.5rem; background-color: #fdfbf7; }
+    /* --- HAMBURGER ICON --- */
+.hamburger-box {
+    width: 30px; 
+    height: 12px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between;
+    cursor: pointer; 
+    transition: opacity 0.3s;
+}
+.hamburger-box:hover { opacity: 0.7; }
+.h-line { 
+    width: 100%; 
+    height: 1px; 
+    background-color: #F0EBE0; /* Adjust color based on background */
+    transition: all 0.3s ease; 
+}
+
+/* --- SIDE GLASS MENU --- */
+.glass-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 100%; 
+    max-width: 450px; 
+    background: rgba(10, 10, 10, 0.3); /* Dark Glass Effect */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transform: translateX(100%); /* Hidden by default */
+    transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+    z-index: 150;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;
+    border-left: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Open State */
+.menu-open { transform: translateX(0); }
+
+/* Menu Link Animation */
+.menu-link {
+    display: block; 
+    transform: translateX(50px); 
+    opacity: 0; 
+    transition: all 0.5s ease;
+}
+.menu-link.slide-in { transform: translateX(0); opacity: 1; }
+
+/* --- NAVBAR HIDE ON SCROLL --- */
+nav { transition: transform 0.4s ease-in-out; }
+.nav-hidden { transform: translateY(-100%); }
+    </style>
+</head>
+
+<body>
+    <div id="fs-menu" class="glass-menu text-[#F0EBE0] border-l border-white/10">
+    
+    <div class="absolute bottom-10 left-10 text-[100px] opacity-5 font-serif pointer-events-none select-none leading-none">
+        ∞
+    </div>
+
+    <div class="menu-links-container text-left w-full pl-20 flex flex-col gap-8 relative z-10">
+        <div><a href="index.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Home</a></div>
+        <div><a href="about.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">About</a></div>
+        <div><a href="projects.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Projects</a></div>
+        <div><a href="services.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Services</a></div>
+        <div><a href="contact.html" class="menu-link text-3xl md:text-4xl font-serif hover:text-gray-400">Contact</a></div>
+    </div>
+
+    <div id="menu-close" class="absolute top-10 right-10 cursor-pointer text-xs uppercase tracking-widest hover:opacity-70 z-50 flex items-center gap-2">
+        <span>Close</span> <div class="w-4 h-[1px] bg-white"></div>
+    </div>
+</div>
+
+<nav id="main-nav" class="fixed top-0 left-0 w-full px-5 md:px-10 py-6 flex justify-between items-center z-50 mix-blend-difference text-[#F0EBE0]">
+    <div class="text-xl font-bold tracking-widest uppercase cursor-pointer">
+        ANANT AGRAWAL ARCHITECTS
+    </div>
+    
+    <div id="menu-trigger" class="cursor-pointer group p-2">
+        <div class="hamburger-box">
+            <div class="h-line group-hover:bg-gray-400"></div>
+            <div class="h-line group-hover:bg-gray-400"></div>
         </div>
     </div>
-</footer>
+</nav>
 
-  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
-  <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
-  <script>
-    // Register GSAP
-    gsap.registerPlugin(ScrollTrigger);
+    <section id="landing-view" class="index-container">
+        <div class="index-header">Anant Aggarwal Architects</div>
+        <div style="font-family: var(--font-serif); font-size: 2rem; margin-bottom: 2rem; font-style: italic;">Select a Visual Diary</div>
+        <ul class="diary-list">
+            <li class="diary-item" onclick="openDiary(0)"><div class="diary-link"><span class="diary-num">01</span>London Diary</div></li>
+            <li class="diary-item" onclick="openDiary(1)"><div class="diary-link"><span class="diary-num">02</span>Cardiff Diary</div></li>
+            <li class="diary-item" onclick="openDiary(2)"><div class="diary-link"><span class="diary-num">03</span>Paris Diary</div></li>
+            <li class="diary-item" onclick="openDiary(3)"><div class="diary-link"><span class="diary-num">04</span>Zefco Diary</div></li>
+        </ul>
+    </section>
 
-    // Staggered Fade Up Animation for Gallery
-    const cards = document.querySelectorAll('.gallery-card');
-    
-    cards.forEach((card, index) => {
-        gsap.fromTo(card, 
-            { opacity: 0, y: 50 },
+    <button id="global-exit-btn" class="hidden" onclick="closeDiary()">
+        Close Diary <i class="ph ph-x" style="font-size: 1.2rem;"></i>
+    </button>
+
+    <section id="book-view" class="book-stage hidden">
+        <div class="book-transform-wrapper">
+            <div id="flipbook"></div> 
+        </div>
+        <div class="toolbar">
+            <button id="btnPrev" class="tool-btn"><i class="ph ph-caret-left"></i></button>
+            <div style="font-size:0.8rem; color:#888; font-weight:600; padding:0 15px;" id="pageCount">Cover</div>
+            <button id="btnNext" class="tool-btn"><i class="ph ph-caret-right"></i></button>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+
+    <script>
+        // --- DATA ---
+        const diaries = [
             {
-                opacity: 1, 
-                y: 0, 
-                duration: 0.8,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top 90%", // Start animating when top of card hits 90% viewport height
-                    toggleActions: "play none none reverse"
-                }
-            }
-        );
+                id: "01", 
+                city: "London", 
+                // YOUR INTRO TEXT
+                intro: "During my Sustainable Mega Buildings studies at Cardiff University’s Welsh School of Architecture, I participated in an advanced urban climate walk through London’s high-rise district, guided by Dr. Julie (Ann) Futcher. This experience, alongside fellow students and Professors Tania Sharmin and Eshrar Latif, deepened my expertise in analyzing how tall buildings influence complex urban microclimates. It enhanced my ability to design high-rise projects that thoughtfully respond to their environmental context, optimizing both performance and occupant comfort. This hands-on exposure underscores my commitment to delivering sophisticated, climate-aware architecture informed by cutting-edge research and real-world observation.", 
+                
+                images: [
+                    { 
+                        t: "Historic vs Modern Context", 
+                        img: "london/20250403_104604.jpg", // Royal Exchange
+                        desc: "The juxtaposition of the Royal Exchange’s classical portico against 22 Bishopsgate’s monolithic glass façade highlights the evolution of the City’s urban fabric. This contrast emphasizes the shift from thermal mass masonry to lightweight, high-performance skins, altering the local microclimate and wind patterns at street level."
+                    },
+                    { 
+                        t: "Urban Climate Research", 
+                        img: "london/Screenshot_20251201_140839_LinkedIn.jpg", // Group Photo
+                        desc: "Field analysis with Dr. Julie Futcher and the research cohort. Conducting observational studies on urban microclimates is crucial for validating computational fluid dynamics (CFD) models. This engagement provides qualitative data on occupant comfort, bridging the gap between theoretical performance and the lived reality of high-density zones."
+                    },
+                    { 
+                        t: "Form Follows Environment", 
+                        img: "london/20250422_181807.jpg", // City Hall
+                        desc: "The form of the former City Hall is driven by thermodynamic principles. Its spherical geometry minimizes surface area to reduce heat loss, while the stepped, overhanging floors provide passive solar shading. A prime example of high-tech sustainable architecture where form intrinsically follows environmental function."
+                    },
+                    { 
+                        t: "Structural Expressionism", 
+                        img: "london/20250403_114001.jpg", // Lloyd's Building
+                        desc: "Richard Rogers’ Lloyd’s Building exemplifies the 'Inside-Out' ethos. By externalizing services—staircases, lifts, and ducts—the design creates a flexible, uninterrupted interior floor plate. The dynamic, layered façade actively modulates light and shadow, creating a complex aerodynamic profile that influences the immediate wind environment."
+                    },
+                    { 
+                        t: "Biophilic Facades", 
+                        img: "london/20250403_110824.jpg", // Living Wall
+                        desc: "This extensive vertical living wall serves as an active biological cladding system. Beyond visual relief, it combats the urban heat island effect through evapotranspiration, improves local air quality by trapping particulate matter, and introduces biodiversity into the dense, mineral-heavy landscape of the city."
+                    },
+                    { 
+                        t: "The Urban Canyon", 
+                        img: "london/20250403_113413.jpg", // Sky View
+                        desc: "A 'worm’s-eye' view of the urban canyon reveals the spatial compression caused by vertical densification. The converging glass towers reduce sky view factors, limiting direct sunlight at street level. This perspective underscores the need for high-reflectance materials to maximize daylight penetration into the public realm."
+                    },
+                    { 
+                        t: "Aerodynamic Morphology", 
+                        img: "london/20250403_112439.jpg", // Gherkin
+                        desc: "30 St Mary Axe’s aerodynamic form reduces wind downdrafts, enhancing pedestrian comfort. Its diagrid structure allows for a column-free interior and fully glazed skin. In contrast, the angular geometry of The Scalpel creates distinct wind turbulence, showcasing how varying high-rise morphologies impact the urban microclimate."
+                    }
+                ]
+            },
+            {
+                id: "02", 
+                city: "Cardiff", 
+                intro: "During my MSc Architectural Science studies at Cardiff University’s Welsh School of Architecture, I conducted an in-depth investigation of the historic Pierhead Building in Cardiff Bay, a Grade-I-listed structure built in 1897 now serving as a multipurpose visitor center. Under the guidance of Matthew Jones, sustainability manager, and support from Dr. Simon Lannon and Dr. Vicki Stevenson, I focused on the Futures Gallery exhibition space. This project involved post-occupancy monitoring and strategic energy optimization to enhance environmental performance and occupant comfort. It demonstrated my capability to blend heritage preservation with modern sustainability goals through rigorous analysis and practical interventions.", 
+                images: [
+                    { 
+                        t: "Victorian Gothic Heritage", 
+                        img: "cardiff/20250311_114247.jpg", // Exterior Wide Shot
+                        desc: "The Grade-I listed Pierhead Building stands as a masterpiece of terracotta Victorian Gothic architecture. Its thermal mass masonry walls present unique challenges for modern energy retrofitting, requiring sensitive interventions that preserve the historic fabric while mitigating heat loss in the harsh maritime climate of Cardiff Bay." 
+                    },
+                    { 
+                        t: "Research Cohort", 
+                        img: "cardiff/Screenshot_20251201_140942_LinkedIn.jpg", // Group Photo
+                        desc: "Collaborative fieldwork with the MSc Architectural Science cohort in front of the Pierhead. This site visit initiated the comprehensive environmental audit, establishing the baseline for our post-occupancy evaluation. The human element—understanding visitor flow and staff comfort—was central to our sustainability strategy." 
+                    },
+                    { 
+                        t: "Internal Circulation", 
+                        img: "cardiff/20250311_103342.jpg", // Interior Stairs
+                        desc: "The grand staircase acts as a thermal chimney, influencing the building's stack effect ventilation. Our analysis focused on how vertical circulation spaces redistribute heat, identifying stratification patterns that could be leveraged for passive cooling in summer or heat recovery during winter months." 
+                    },
+                    { 
+                        t: "Futures Gallery Occupancy", 
+                        img: "cardiff/Screenshot_20251211_221115_LinkedIn.jpg", // Gallery Crowd
+                        desc: "The Futures Gallery serves as a high-traffic exhibition space. We analyzed the impact of fluctuating visitor density on indoor air quality (IAQ) and thermal load. The study aimed to balance the preservation of sensitive exhibits with the comfort requirements of a modern, multipurpose public venue." 
+                    },
+                    { 
+                        t: "Post-Occupancy Monitoring", 
+                        img: "cardiff/Screenshot_20251211_221100_LinkedIn.jpg", // Hand with sensor
+                        desc: "Utilizing rigorous environmental monitoring tools to measure surface temperatures and airflow rates. This data-driven approach allowed us to identify thermal bridges and infiltration points within the historic envelope, providing empirical evidence to support targeted retrofitting proposals for energy optimization." 
+                    }
+                ]
+            },
+            {
+                id: "03", 
+                city: "Paris", 
+                intro: "During an inspiring Paris study trip with Cardiff University’s Environmental Design of Buildings and Sustainable Megabuildings MSc cohorts, I engaged deeply with pioneering sustainable architecture practices. Led by Prof. Emmanouil Perisoglou and Prof. Amalia Banteli, we explored Zefco’s innovative low-carbon design philosophy, examining projects that seamlessly integrate beauty and sustainability. This hands-on experience honed my expertise in environmentally responsive architecture, connecting theoretical knowledge to real-world applications. The collaboration with experts including Sarah O'Dwyer, Vicki Stevenson, Florian Dupont, and Sabine Gröger enriched my vision of future-proof, green design solutions. This journey underscored my commitment to advancing sustainable, high-performance architecture.", 
+                images: [
+                    { 
+                        t: "The Urban Void", 
+                        img: "paris/20250603_163748.jpg", // BNF Towers
+                        desc: "Dominique Perrault’s Bibliothèque Nationale de France redefines the urban void. Four L-shaped glass towers frame a sunken forest, creating an inward-looking microclimate that isolates reading rooms from the city's noise. The minimal glass envelopes emphasize transparency while the central garden acts as the project’s green lung." 
+                    },
+                    { 
+                        t: "Civic Transparency", 
+                        img: "paris/20250604_122043.jpg", // Tribunal Interior
+                        desc: "Renzo Piano’s Tribunal de Paris exemplifies institutional transparency through its light-filled atrium. The structural hierarchy, defined by slender white columns and extensive glazing, dematerializes the building’s mass. This passive solar design strategy maximizes daylight penetration, reducing artificial lighting loads while creating a welcoming civic space." 
+                    },
+                    { 
+                        t: "Organic Verticality", 
+                        img: "paris/20250604_101001(0).jpg", // UNIC Building
+                        desc: "MAD Architects’ UNIC building in Clichy-Batignolles challenges the rigidity of the Parisian block with its sinuous, organic floor plates. The undulating terraces maximize views and solar access for residents, blurring the boundary between architecture and nature. It stands as a sculptural intervention in high-density vertical living." 
+                    },
+                    { 
+                        t: "Sustainable Materiality", 
+                        img: "paris/20250604_104202.jpg", // Clichy Green/Wood
+                        desc: "A study in contrasting materiality within the eco-district. The juxtaposition of vertical timber slats against green metallic cladding highlights diverse approaches to sustainable facades. These skins are not merely aesthetic; they function as active rainscreens and shading devices, regulating thermal gain and promoting natural ventilation." 
+                    },
+                    { 
+                        t: "Bio-Climatic Design", 
+                        img: "paris/20250604_100941.jpg", // Green Tower
+                        desc: "This residential tower integrates extensive vertical landscaping, functioning as a vertical garden city. The deep, planted balconies provide natural shading and evaporative cooling, mitigating the urban heat island effect. It represents a paradigm shift towards bio-climatic high-rise design where vegetation is integral to the building envelope." 
+                    },
+                    { 
+                        t: "Passive Solar Shading", 
+                        img: "paris/20250604_114310.jpg", // Angular Balconies
+                        desc: "The sharp, angular geometry of these balconies optimizes passive solar shading while maintaining privacy. The use of warm, natural timber louvers contrasts with the concrete structure, softening the visual impact. This articulation creates a dynamic play of shadow and light, responsive to the shifting sun angles throughout the day." 
+                    },
+                    { 
+                        t: "Structural Contrast", 
+                        img: "paris/20250603_192333.jpg", // Louvre Pyramid
+                        desc: "I.M. Pei’s Pyramid is a masterclass in structural tension and transparency. The cable-stayed glass structure creates a dialogue between the historic Renaissance palace and modern engineering. It serves as a luminous skylight for the subterranean lobby, demonstrating how minimal intervention can activate vast underground volumes." 
+                },
+                    { 
+                        t: "Civic Transparency", 
+                        img: "paris/20250604_122043.jpg", // Tribunal Interior
+                        desc: "Renzo Piano’s Tribunal de Paris exemplifies institutional transparency through its light-filled atrium. The structural hierarchy, defined by slender white columns and extensive glazing, dematerializes the building’s mass. This passive solar design strategy maximizes daylight penetration, reducing artificial lighting loads while creating a welcoming civic space." 
+                    },
+                    { 
+                        t: "Collaborative Fieldwork", 
+                        img: "paris/IMG-20250612-WA0039.jpg", // Group Photo
+                        desc: "Field study with the MSc cohorts and industry experts at the Tribunal de Paris. Engaging directly with these megastructures allowed us to critique the practical application of low-carbon design philosophies, bridging the gap between academic theory and the operational realities of large-scale sustainable architecture." 
+                    },
+                    { 
+                        t: "Organic Verticality", 
+                        img: "paris/20250604_101001(0).jpg", // UNIC Building
+                        desc: "MAD Architects’ UNIC building in Clichy-Batignolles challenges the rigidity of the Parisian block with its sinuous, organic floor plates. The undulating terraces maximize views and solar access for residents, blurring the boundary between architecture and nature. It stands as a sculptural intervention in high-density vertical living." 
+                    },
+                    { 
+                        t: "Bio-Climatic Design", 
+                        img: "paris/20250604_100941.jpg", // Green Tower
+                        desc: "This residential tower integrates extensive vertical landscaping, functioning as a vertical garden city. The deep, planted balconies provide natural shading and evaporative cooling, mitigating the urban heat island effect. It represents a paradigm shift towards bio-climatic high-rise design where vegetation is integral to the building envelope." 
+                    },
+                    { 
+                        t: "Sustainable Materiality", 
+                        img: "paris/20250604_104202.jpg", // Timber Facade
+                        desc: "A study in contrasting materiality within the eco-district. The juxtaposition of vertical timber slats against green metallic cladding highlights diverse approaches to sustainable facades. These skins are not merely aesthetic; they function as active rainscreens and shading devices, regulating thermal gain and promoting natural ventilation." 
+                    },
+                    { 
+                        t: "The Urban Void", 
+                        img: "paris/20250603_163748.jpg", // BNF Towers
+                        desc: "Dominique Perrault’s Bibliothèque Nationale de France redefines the urban void. Four L-shaped glass towers frame a sunken forest, creating an inward-looking microclimate that isolates reading rooms from the city's noise. The minimal glass envelopes emphasize transparency while the central garden acts as the project’s green lung." 
+                    },
+                    { 
+                        t: "Structural Contrast", 
+                        img: "paris/20250603_192333.jpg", // Louvre Pyramid
+                        desc: "I.M. Pei’s Pyramid is a masterclass in structural tension and transparency. The cable-stayed glass structure creates a dialogue between the historic Renaissance palace and modern engineering. It serves as a luminous skylight for the subterranean lobby, demonstrating how minimal intervention can activate vast underground volumes." 
+                    }
+            ]
+        },
+        {
+                id: "04", 
+                city: "Zefco", 
+                intro: "During an inspiring Paris study trip with Cardiff University’s Environmental Design of Buildings and Sustainable Megabuildings MSc cohorts, I engaged deeply with pioneering sustainable architecture practices. Led by Prof. Emmanouil Perisoglou and Prof. Amalia Banteli, we explored Zefco’s innovative low-carbon design philosophy, examining projects that seamlessly integrate beauty and sustainability. This hands-on experience honed my expertise in environmentally responsive architecture, connecting theoretical knowledge to real-world applications. The collaboration with experts including Sarah O'Dwyer, Vicki Stevenson, Florian Dupont, and Sabine Gröger enriched my vision of future-proof, green design solutions. This journey underscored my commitment to advancing sustainable, high-performance architecture.", 
+                images: [
+                    { 
+                        t: "Lifecycle Assessment", 
+                        img: "zefco/IMG-20250612-WA0017.jpg", // Bio-based materials slide
+                        desc: "Analyzing the embodied carbon of construction materials. Zefco’s methodology emphasizes the critical shift from static performance metrics to dynamic lifecycle assessments (LCA), illustrating how bio-based materials can drastically reduce the carbon footprint of future developments." 
+                    },
+                    { 
+                        t: "Circular Economy", 
+                        img: "zefco/Screenshot_20251211_221442_LinkedIn.jpg", // Supply chain slide
+                        desc: "Mapping the construction value chain to identify circular economy opportunities. The workshop highlighted the importance of 'urban mining' and material reuse, challenging the traditional linear 'take-make-waste' model in favor of a regenerative architectural ecosystem." 
+                    },
+                    { 
+                        t: "Adaptive Reuse Strategy", 
+                        img: "zefco/IMG-20250608-WA0073.jpg", // Presentation
+                        desc: "Developing retrofit strategies for existing building stock. We explored interventions that upgrade thermal performance without compromising architectural integrity, proving that the most sustainable building is often the one that already exists." 
+                    },
+                    { 
+                        t: "Collaborative Design", 
+                        img: "zefco/IMG-20250604-WA0006.jpg", // Group in Courtyard
+                        desc: "Interdisciplinary collaboration is at the heart of sustainable design. Working alongside peers and experts in the Zefco courtyard, we synthesized complex environmental data into actionable design solutions, bridging the gap between engineering metrics and architectural form." 
+                    },
+                    { 
+                        t: "Retrofit Case Study", 
+                        img: "zefco/Screenshot_20251211_222938_LinkedIn.jpg", // Blue/White Building
+                        desc: "On-site analysis of a Zefco retrofit project. This case study demonstrated the practical application of external thermal insulation composite systems (ETICS) to modernize mid-century housing, significantly reducing operational energy demand while refreshing the urban aesthetic." 
+                    },
+                    { 
+                        t: "Low-Carbon Workshop", 
+                        img: "zefco/IMG-20250612-WA0033.jpg", // Interior Workshop
+                        desc: "Inside the Zefco studio, engaging with the tools and materials of low-carbon design. This immersive environment fostered a deep understanding of how material selection, from hempcrete to cross-laminated timber (CLT), dictates the environmental success of a project." 
+                    }
+                ]
+        }
+        ];
+
+        let pageFlip = null;
+
+        function openDiary(index) {
+            const data = diaries[index];
+            const bookEl = document.getElementById('flipbook');
+            
+            document.getElementById('landing-view').classList.add('hidden');
+            document.getElementById('book-view').classList.remove('hidden');
+            document.getElementById('global-exit-btn').classList.remove('hidden');
+
+            // --- COVER & INTRO PAGE ---
+            let html = `
+                <div class="my-page --hard front-cover"><div class="cover-content"><div class="cover-sub">DIARY ${data.id}</div><div class="cover-title">${data.city}<br>CHRONICLES</div><div style="margin-top:2rem; font-size:2rem; color:#c9b29a;">∞</div></div></div>
+                <div class="my-page" style="background:#222;"></div>
+                <div class="my-page">
+                    <div class="text-page-container">
+                        <div style="font-family:serif; font-size:2.5rem; margin-bottom:1rem; border-bottom: 1px solid #c9b29a; padding-bottom:0.5rem;">${data.city}</div>
+                        <p style="font-style:italic; color:#444; font-size: 0.85rem; line-height: 1.6; text-align: justify;">${data.intro}</p>
+                    </div>
+                </div>
+            `;
+            
+            // --- IMAGE PAGES WITH DESCRIPTIONS ---
+            data.images.forEach(img => {
+                // Check if description exists, otherwise default
+                const descText = img.desc ? img.desc : `${data.city} Architectural Study`;
+                
+                html += `
+                <div class="my-page">
+                    <img src="${img.img}" class="page-image-full">
+                    <div class="caption-box">
+                        <h3>${img.t}</h3>
+                        <p style="font-size: 0.8rem; line-height: 1.4;">${descText}</p>
+                    </div>
+                </div>`;
+            });
+            
+            html += `<div class="my-page --hard back-cover"><div class="cover-content"><div class="cover-sub">End of ${data.city}</div></div></div>`;
+            
+            bookEl.innerHTML = html;
+
+            setTimeout(() => {
+                if (pageFlip) { try { pageFlip.destroy(); } catch(e){} }
+                
+                pageFlip = new St.PageFlip(bookEl, {
+                    width: 400, height: 600, 
+                    size: "fixed",
+                    minWidth: 300, maxWidth: 600, 
+                    minHeight: 400, maxHeight: 800,
+                    showCover: true, maxShadowOpacity: 0.5, usePortrait: false
+                });
+
+                pageFlip.loadFromHTML(document.querySelectorAll('.my-page'));
+
+                const updateUI = () => {
+                    if (!pageFlip) return;
+                    const current = pageFlip.getCurrentPageIndex();
+                    const total = pageFlip.getPageCount();
+                    
+                    document.getElementById('pageCount').innerText = (current === 0) ? "Cover" : `Page ${current}`;
+                    document.getElementById('btnPrev').disabled = (current === 0);
+                    document.getElementById('btnNext').disabled = (current >= total - 1);
+                };
+
+                pageFlip.on('flip', updateUI);
+                updateUI();
+
+                document.getElementById('btnPrev').onclick = () => pageFlip.flipPrev();
+                document.getElementById('btnNext').onclick = () => pageFlip.flipNext();
+            }, 300);
+        }
+
+        function closeDiary() {
+            location.reload();
+        }
+        // --- MENU LOGIC ---
+const trigger = document.getElementById('menu-trigger');
+const closeBtn = document.getElementById('menu-close');
+const menu = document.getElementById('fs-menu');
+const links = document.querySelectorAll('.menu-link');
+
+if (trigger && closeBtn && menu) {
+    trigger.addEventListener('click', () => {
+        // Open Menu
+        menu.classList.add('menu-open');
+        
+        // Staggered Text Reveal
+        links.forEach((link, index) => {
+            setTimeout(() => { 
+                link.classList.add('slide-in'); 
+            }, 300 + (index * 100));
+        });
     });
 
-    // Menu Logic
-    const menu = document.getElementById('fs-menu');
-    const links = document.querySelectorAll('.menu-link');
-    document.getElementById('menu-trigger').onclick = () => {
-        menu.classList.add('menu-open');
-        links.forEach((l,i) => setTimeout(() => l.classList.add('slide-in'), 300 + i*100));
-    };
-    document.getElementById('menu-close').onclick = () => {
+    closeBtn.addEventListener('click', () => {
+        // Close Menu
         menu.classList.remove('menu-open');
-        links.forEach(l => l.classList.remove('slide-in'));
-    };
-  </script>
+        
+        // Reset Text Positions
+        links.forEach(link => { 
+            link.classList.remove('slide-in'); 
+        });
+    });
+}
 
+// --- NAVBAR HIDE ON SCROLL ---
+let lastScrollTop = 0;
+const navbar = document.getElementById('main-nav');
+
+window.addEventListener('scroll', function() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop < 0) return; // Prevent negative scroll bounce
+
+    if (scrollTop > lastScrollTop && scrollTop > 50) {
+        // Scrolling DOWN -> Hide
+        navbar.classList.add('nav-hidden');
+    } else {
+        // Scrolling UP -> Show
+        navbar.classList.remove('nav-hidden');
+    }
+    
+    lastScrollTop = scrollTop;
+});
+    </script>
 </body>
 </html>

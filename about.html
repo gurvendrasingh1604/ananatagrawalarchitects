@@ -219,6 +219,128 @@
     .award-rank { font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent); }
     .award-org { font-family: var(--font-serif); font-size: 1.25rem; color: var(--foreground); }
 
+    /* ============================
+           RESEARCH & PUBLICATIONS
+           ============================ */
+        .research-section {
+            padding: 4rem 10%; /* Wide padding for desktop */
+            background-color: #fcfcfc;
+            border-top: 1px solid #eee;
+        }
+
+        .section-label {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 3rem;
+            border-left: 2px solid var(--accent);
+            padding-left: 1rem;
+        }
+
+        .research-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .research-item {
+            display: grid;
+            grid-template-columns: 100px 1fr 150px; /* Desktop: Year | Content | Link */
+            gap: 2rem;
+            align-items: flex-start;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eaeaea;
+            transition: all 0.3s ease;
+        }
+
+        .research-item:last-child {
+            border-bottom: none;
+        }
+
+        .research-item:hover {
+            transform: translateX(10px); /* Subtle hover movement */
+        }
+
+        .research-year {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            color: #ccc;
+            font-size: 1.2rem;
+        }
+
+        .research-title {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: #222;
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+        }
+
+        .research-desc {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .research-link {
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            text-align: right;
+            margin-top: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .research-link:hover {
+            color: #000;
+        }
+
+        /* ============================
+           MOBILE RESPONSIVENESS
+           ============================ */
+        @media (max-width: 768px) {
+            .research-section {
+                padding: 3rem 1.5rem; /* Less padding on mobile */
+            }
+
+            .research-item {
+                display: flex;
+                flex-direction: column; /* Stack vertically */
+                gap: 0.5rem;
+                padding-bottom: 2.5rem;
+            }
+
+            .research-year {
+                font-size: 0.9rem;
+                color: var(--accent); /* Highlight year color on mobile */
+                margin-bottom: 0.2rem;
+            }
+
+            .research-title {
+                font-size: 1.3rem;
+            }
+
+            .research-desc {
+                font-size: 0.95rem; /* Slightly larger text for reading on phone */
+                margin-bottom: 1rem;
+            }
+
+            .research-link {
+                text-align: left; /* Align link to left on mobile */
+                border: 1px solid #eee;
+                padding: 10px 20px;
+                display: inline-block;
+                width: fit-content;
+                border-radius: 30px;
+            }
+        }
     /* Challenger */
     .challenger { position: relative; overflow: hidden; }
     .challenger-bg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0.05; pointer-events: none; }
@@ -303,6 +425,59 @@
     /* Animations */
     .animate-fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
     .visible { opacity: 1; transform: translateY(0); }
+
+    /* ============================
+           UNIVERSITY BADGES SECTION
+           ============================ */
+        .badges-section {
+            padding: 4rem 2rem;
+            background-color: #fff; /* Clean white background */
+            text-align: center;
+            border-top: 1px solid #f0f0f0; /* Subtle separator */
+        }
+
+        .badges-title {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 2rem;
+        }
+
+        .badges-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem; /* Space between logos */
+            flex-wrap: wrap; /* Wraps on mobile */
+        }
+
+        .badge-item img {
+            height: 60px; /* Keeps them small and uniform */
+            width: auto;  /* Maintains aspect ratio */
+            filter: grayscale(100%); /* Makes them black & white */
+            opacity: 0.6;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        /* Hover Effect: Color + Full Opacity */
+        .badge-item img:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: translateY(-3px); /* Slight float up */
+        }
+
+        /* Mobile Adjustment */
+        @media (max-width: 768px) {
+            .badges-row {
+                gap: 2rem;
+            }
+            .badge-item img {
+                height: 45px; /* Even smaller on phones */
+            }
+        }
   </style>
 </head>
 <body>
@@ -343,14 +518,14 @@
 
   <section class="hero">
     <div class="hero-bg">
-      <img src="website-20251202T201341Z-1-001/website/generated-image (31).png" alt="Minimalist Japanese interior">
+      <img src="website-20251202T201341Z-1-001/website/Fluxolance.png" alt="Fluxolance">
     </div>
     <div class="hero-content">
       <div class="hero-scroll animate-fade-up">
         <span class="section-label" style="color:white;">Scroll</span>
       </div>
       <div class="animate-fade-up" style="transition-delay: 100ms;">
-        <span class="symbol-text" style="color:white; opacity:0.8;">∞</span>
+
       </div>
       <h1 class="section-title animate-fade-up" style="transition-delay: 200ms;">About Us</h1>
       <p class="body-text animate-fade-up" style="transition-delay: 300ms; color:rgba(255,255,255,0.8);">
@@ -374,7 +549,7 @@
             <div>
             <span class="section-label" style="display: block; margin-bottom: 1rem;">Our Origins</span>
             <p class="body-text">
-                Anant Agrawal Architects was founded with a singular vision: to redefine architecture by 
+                <b><i>Anant Agrawal Architects</i></b> was founded with a singular vision: to redefine architecture by 
                 harmonizing cutting-edge innovation with the principles of sustainability and 
                 tradition. Our story is one of rebirth—a commitment to building 
                 spaces that honor the environment while pushing the boundaries of what's possible 
@@ -415,7 +590,7 @@
         </div>
         <div class="team-bio">
           <p class="body-text">
-            Anant Agrawal Architects was founded with a singular vision: to redefine architecture by 
+            <b><i>Anant Agrawal Architects </i></b>was founded with a singular vision: to redefine architecture by 
             harmonizing cutting-edge innovation with the principles of sustainability and 
             tradition. Our story is one of rebirth—a commitment to building 
             spaces that honor the environment while pushing the boundaries of what's possible 
@@ -427,9 +602,9 @@
             a lasting positive impact on urban landscapes.
           </p><br>
           <p class="body-text">
-            Academically, I hold a Bachelor’s degree in Architecture (B.Arch) from Mumbai University, India, 
+            Academically, I hold a Bachelor’s degree in <b>Architecture (B.Arch) from Mumbai University, India, 
             and a Master’s in Sustainable Mega Buildings (MSc) from the prestigious Cardiff University, 
-            UK—ranked among the top 5 universities globally in Architecture by QS World Rankings. 
+            UK—ranked among the top 5 universities globally in Architecture by QS World Rankings</b>. 
             This academic foundation, combined with hands-on experience, allows me to approach each 
             project with a balance of creativity, technical precision, and global perspective.
             <br><br>
@@ -454,20 +629,18 @@
             <div class="site-text">
                 <span class="section-label" style="display:block; margin-bottom:1rem;">The Process</span>
                 <p class="body-text">
-                    During my Sustainable Mega Buildings studies at Cardiff University’s Welsh School of Architecture, 
-                    I participated in an advanced urban climate walk through 
-                    London’s high-rise district, guided by Dr. Julie (Ann) Futcher. 
-                    This experience, alongside fellow students and Professors Tania Sharmin and Eshrar Latif, 
-                    deepened my expertise in analyzing how tall buildings influence complex urban microclimates.
-                </p>
+                    Through immersive site visits across London, Cardiff, and Paris, I’ve explored how 
+                    architecture interacts with real-world environmental dynamics. 
+                    From studying urban microclimates in high-rise districts with Dr. Julie Futcher to analyzing the 
+                    historic sustainability retrofit of Cardiff’s Pierhead Building, 
+                    each experience has deepened my understanding of performance-driven design.</p>
                 <br>
-                <p class="body-text">
-                     
-                    It enhanced my ability to design high-rise projects that thoughtfully respond to their environmental 
-                    context, optimizing both performance and occupant comfort. 
-                    This hands-on exposure underscores my commitment to delivering sophisticated, 
-                    climate-aware architecture informed by cutting-edge research and real-world observation.
-                </p>
+                <p class="body-text">  
+                    Engaging with leading experts during international workshops and study tours sharpened 
+                    my ability to merge research, innovation, and contextual sensitivity—transforming theory 
+                    into advanced 
+                    sustainable design practice that responds intelligently to place, climate, and human comfort.
+                 </p>
             </div>
 
             <div class="site-images">
@@ -502,8 +675,8 @@
                   <div class="slider-caption">03. Structural Frame</div>
               </div>
               <div class="slider-item">
-                  <img src="website-20251202T201341Z-1-001/website/Opulent Studio.jpg" alt="Interiors">
-                  <div class="slider-caption">04. Light Studies</div>
+                  <img src="website-20251202T201341Z-1-001/website/Opulent Studio1.jpg" alt="Interiors">
+                  <div class="slider-caption">04. Opulent Studio</div>
               </div>
               <div class="slider-item">
                   <img src="website-20251202T201341Z-1-001/website/Elite Manor.png" alt="Finishing">
@@ -537,30 +710,58 @@
       </div>
     </div>
   </section>
-
-  <section class="research animate-fade-up">
-    <div class="content-wrapper">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-8">
-            <div>
-                <h2 class="section-title">Research<br>Publications</h2>
-                <span class="symbol-text">∞</span>
-            </div>
-            <a href="https://www.researchgate.net/profile/Anant-Agrawal-10" target="_blank" class="hidden md:inline-block px-8 py-3 bg-[#1a1a1a] text-white rounded-full text-xs font-bold tracking-widest hover:bg-[#c9b29a] transition duration-300">
-                View on ResearchGate
-            </a>
-        </div>
+  <section class="badges-section">
+        <h4 class="badges-title">Education & Affiliations</h4>
         
-        <div class="border-t border-black/10 pt-8">
-            <p class="body-text mb-8">
-                Our practice is grounded in rigorous academic inquiry. We actively contribute to the global body of knowledge on sustainable architecture, microclimate analysis, and heritage retrofitting. Access our full list of peer-reviewed papers, conference proceedings, and technical reports on ResearchGate.
-            </p>
-            
-            <a href="https://www.researchgate.net/profile/Anant-Agrawal-10" target="_blank" class="md:hidden inline-block px-8 py-3 bg-[#1a1a1a] text-white rounded-full text-xs font-bold tracking-widest hover:bg-[#c9b29a] transition duration-300">
-                View Profile
-            </a>
+        <div class="badges-row">
+            <div class="badge-item">
+                <img src="badges/cardiff-university9562.jpg" alt="Cardiff University" title="Cardiff University">
+            </div>
+
+            <div class="badge-item">
+                <img src="badges/Council_of_Architecture_logo.jpg" alt="Council of Architecture" title="Council of Architecture">
+            </div>
+
+            <div class="badge-item">
+                <img src="badges/Mumbai_University.webp" alt="Mumbai University" title="Mumbai University">
+            </div>
         </div>
-    </div>
-  </section>
+    </section>
+
+  <section class="research-section">
+        <h4 class="section-label">Research & Publications</h4>
+        
+        <div class="research-list">
+            
+            <div class="research-item">
+                <div class="research-year">2025</div>
+                <div class="research-content">
+                    <h3 class="research-title">Urban Microclimates in High-Rise Clusters</h3>
+                    <p class="research-desc">An analysis of wind turbulence and thermal comfort in the London financial district, utilizing CFD simulations and field data from the City of London walk.</p>
+                </div>
+                <a href="https://www.researchgate.net/profile/Anant-Agrawal-10" class="research-link">Read Paper <i class="ph ph-arrow-up-right"></i></a>
+            </div>
+
+            <div class="research-item">
+                <div class="research-year">2024</div>
+                <div class="research-content">
+                    <h3 class="research-title">Heritage Retrofitting: Pierhead Building</h3>
+                    <p class="research-desc">Post-occupancy evaluation of Grade-I listed Victorian infrastructure. Strategies for improving thermal efficiency without compromising historic fabric.</p>
+                </div>
+                <a href="https://www.researchgate.net/profile/Anant-Agrawal-10" class="research-link">Read Paper <i class="ph ph-arrow-up-right"></i></a>
+            </div>
+
+            <div class="research-item">
+                <div class="research-year">2024</div>
+                <div class="research-content">
+                    <h3 class="research-title">Low-Carbon Material Lifecycles</h3>
+                    <p class="research-desc">A comparative study of bio-based materials versus traditional concrete in urban construction, inspired by Zefco's circular economy methodologies.</p>
+                </div>
+                <a href="https://www.researchgate.net/profile/Anant-Agrawal-10" class="research-link">Read Paper <i class="ph ph-arrow-up-right"></i></a>
+            </div>
+
+        </div>
+    </section>
 
   <section class="challenger animate-fade-up">
     <div class="challenger-bg">
@@ -582,7 +783,7 @@
         <div class="footer-top">
             
             <div class="footer-brand">
-                <a href="#" class="logo">ANANT AGRAWAL ARCHITECTS</a>
+                <a href="index.html" class="logo">ANANT AGRAWAL ARCHITECTS</a>
                 <p style="margin-top: 1rem; color: #666; font-family: 'Manrope', sans-serif; font-size: 0.9rem; max-width: 24rem;">
                     Redefining architecture through the harmonious blend of innovation, 
                     sustainability, and tradition.
@@ -594,7 +795,7 @@
                 <ul>
                     <li><a href="projects.html">Projects</a></li>
                     <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Services</a></li>
+                    <li><a href="services.html">Services</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
@@ -603,6 +804,8 @@
                 <span>Contact</span>
                 <ul>
                     <li>Mumbai, India</li>
+                    <li>Indore, India</li>
+                    <li>+91 91367 87963, +44 7717848995</li>
                     <li>info@anantagrawalarchitects.in</li>
                 </ul>
             </div>
