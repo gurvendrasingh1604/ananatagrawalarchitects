@@ -16,38 +16,42 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link rel="stylesheet" href="styles.css">
-    <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Anant Agrawal Architects",
-  "url": "https://anantagrawalarchitects.in",
-  "logo": "https://anantagrawalarchitects.in/logo.ico"
-}
-</script>
-
+    <link rel="canonical" href="https://anantagrawalarchitects.in/">
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Architect",
+  "@id": "https://anantagrawalarchitects.in/#architect",
   "name": "Anant Agrawal Architects",
-  "url": "https://www.anantagrawalarchitects.in",
-  "logo": "https://www.anantagrawalarchitects.in/icon/infinity_black.ico",
+  "url": "https://anantagrawalarchitects.in",
+  "logo": "https://anantagrawalarchitects.in/icon/logo.png",
+  "image": "https://anantagrawalarchitects.in/icon/logo.png",
+  "description": "Anant Agrawal Architects is a leading architecture firm in Indore and Mumbai specializing in residential, commercial, and interior architecture.",
+  "telephone": "+91-9136787963",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Indore",
     "addressRegion": "MP",
     "addressCountry": "IN"
   },
-  "areaServed": ["Indore", "Mumbai"],
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "telephone": "+91-9136787963",
-    "contactType": "customer service"
-  }
+  "areaServed": [
+    {
+      "@type": "City",
+      "name": "Indore"
+    },
+    {
+      "@type": "City",
+      "name": "Mumbai"
+    }
+  ],
+  "sameAs": [
+    "https://www.instagram.com/YOUR-INSTAGRAM",
+    "https://www.linkedin.com/in/ar-anant-agrawal-182bb4199/",
+    "https://www.google.com/maps?cid=YOUR_GMB_ID"
+  ]
 }
-
 </script>
+
 <style>
 #page-loader {
   position: fixed;
@@ -413,7 +417,7 @@
             <div class="mask-container">
                 <div class="reveal-text delay-4">
                     <a href="about.html" class="inline-block px-8 py-3 md:px-10 md:py-4 bg-black text-white rounded-full text-xs font-bold tracking-widest hover:bg-gray-800 transition duration-300">
-                        About
+                        About Us
                     </a>
                 </div>
             </div>
@@ -539,8 +543,9 @@
             <div class="footer-contact">
                 <span>Contact</span>
                 <ul>
-                    <li>Mumbai, India</li>
-                    <li>Indore, India</li>
+                    <li>Indore, Madhya Pradesh, India</li>
+                    <li>Mumbai, Maharashtra, India</li>
+
                     <li>+91 91367 87963, +44 7717848995</li>
                     <li>info@anantagrawalarchitects.in</li>
                 </ul>
